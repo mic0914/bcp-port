@@ -13,7 +13,7 @@ function displayComments(){const c=E.comments(sim),view=Object.fromEntries(Objec
 
 
 const initialDamagePhrases={LIGHT:'軽微な被害',MODERATE:'中程度の被害',SEVERE:'大きな被害',EXTREME:'甚大な被害'};
-function phaseSituation(phaseId,text){return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
+function phaseSituation(phaseId,text){text=O.cleanSituation(phaseId,text);return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
 let sim=null,startedAt=0,timer=null,locked=false,lastPrint='';
 let outcomeReports=new Map(),decisionSituations=new Map();
 // Presentation-only state; never stored in or consulted by the simulation engine.
@@ -53,7 +53,7 @@ function resultNodes(parent){
  message(parent,'訓練上の留意事項','本結果は訓練用の内部設定による参考値です。実災害では現地状況と最新情報に基づいて判断してください。時間は採点に使用していません。','system');
 }
 function presentedSituation(id,base){
- if(!decisionSituations.has(id)){const context=id===D.ROLE_PHASES[sim.role][0].id?'':O.nextContext(E,sim,id);decisionSituations.set(id,phaseSituation(id,base)+(context?'\n【現在の判断に関係する状況】\n'+context:''));}
+ if(!decisionSituations.has(id)){const context=id===D.ROLE_PHASES[sim.role][0].id?'':O.nextContext(E,sim,id);decisionSituations.set(id,id==='PM03'&&context?context+'\n'+phaseSituation(id,base):phaseSituation(id,base)+(context?'\n【現在の判断に関係する状況】\n'+context:''));}
  return decisionSituations.get(id);
 }
 function outcomeMessage(parent,id){const report=outcomeReports.get(id);if(!report)return;const row=message(parent,report.title,report.text,'outcome');row.dataset.outcomePhase=id;}

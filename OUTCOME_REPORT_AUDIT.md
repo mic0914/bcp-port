@@ -81,3 +81,7 @@ node tests/browser-qa.js
 ## 最終ローカルQA結果
 
 Static ERROR 0、51/204/612/153/204件を維持。smoke36/36、escalation18/18、normalization12/12、E2E18/18、Final Phase Gate6/6、EVENT/mutation idempotency、restart/role switch、NaN/Infinity0は全PASS。outcome実行整合612/612、ブラウザ22/22、18通し306回答の結果順・重複0・engine変更0、点数/正誤表示0。3役PDFは各3ページ、A4縦・20mm・青緑背景・9ページ描画目視確認。Mobile・reduced motion PASS、JS uncaught0。公開URLで同じ検査を別途再実行する。
+
+## 状況報告の説明調表現修正
+
+2026-10-16追補。全153状況文を点検し、24Phase・53文の「場面です」「国側では〜を扱います」を表示時に整理。実情を含む2文はその意味を保って状況文へ言い換え、それ以外の設問説明は表示から除外する。PM03は3災害とも、現在の岸壁能力状態を冒頭に表示し、個別施設の安全性・荷重条件は能力値だけでは確定できない旨を添える。外観情報の混在という抽象的な案内は表示しない。計55文の表示が変わる。原本153本文、選択肢、engine、評価は変更しない。PDFにも説明調の削除を適用するが、結果報告カードの大量追加はしない。

@@ -523,14 +523,24 @@ function report(E,pre,post,id,choiceId){
  const title=profile.kind==='確認'?'確認結果':['調整','需要'].includes(profile.kind)?'調整結果':profile.kind==='条件'?'運用条件':'対応結果';
  return {phaseId:id,choiceId,roleOwner:p.roleOwner,title,mode:profile.mode,text:[...new Set(sentences)].join('\n'),evidence,snapshotSource:'PHASE_MUTATION_BEFORE_EVENTS',afterMutation:after};
 }
+function cleanSituation(id,text){
+ let view=String(text).split('。').filter(Boolean).map(sentence=>{
+  if(sentence==='複数地域が同じ種類の資源を必要とする場面です')return '複数地域から同じ種類の資源が求められています';
+  if(sentence==='広域の接続候補について情報を照会できる場面です')return '広域の接続候補に関する情報は照会が可能です';
+  if(/場面です|国側では.*扱います/.test(sentence))return '';
+  return sentence;
+ }).filter(Boolean).join('。')+'。';
+ if(id==='PM03')view='岸壁・係留施設の個別の安全性や荷重条件は、機能の残り具合だけでは確定できません。';
+ return view;
+}
 function nextContext(E,s,id){
  const p=E.byId[id],profile=profiles[id],parts=[];
- const limited=profile.keys.filter(k=>s.capacities[k]<80).sort((a,b)=>s.capacities[a]-s.capacities[b]).slice(0,2);
+ const limited=profile.keys.filter(k=>s.capacities[k]<80||(id==='PM03'&&k==='berth')).sort((a,b)=>s.capacities[a]-s.capacities[b]).slice(0,2);
  if(limited.length)parts.push(limited.map(k=>names[k]+'は'+capacityStatus(s.capacities[k])).join('。')+'。');
  for(const key of pressureKeys(p))if(s.pressures[key]>=40)parts.push(names[key]+'については、'+pressureStatus(s.pressures[key])+'。');
  const effects=relevantActive(E,profile.keys,s.activeEffects,id);if(effects.length)parts.push([...new Set(effects.map(e=>effectNames[e.type]))].join('・')+'が継続しています。');
  for(const warning of E.dependencyWarnings(s,id))if(warning.status!=='PENDING')parts.push('前提となる「'+E.byId[warning.phaseId].title+'」の対応には、未了の条件が残っています。');
  return [...new Set(parts)].join('\n');
 }
-return {profiles,names,effectNames,report,nextContext,snapshotAfterMutation};
+return {profiles,names,effectNames,report,nextContext,snapshotAfterMutation,cleanSituation};
 });

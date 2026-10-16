@@ -36,6 +36,15 @@
     {
       "name": "recheck_and_demand_resolution",
       "status": "PASS"
+    },
+    {
+      "name": "all_153_situation_display_cleanup",
+      "status": "PASS",
+      "details": {
+        "cases": 153,
+        "changed": 55,
+        "metaPhrases": 0
+      }
     }
   ]
 }
