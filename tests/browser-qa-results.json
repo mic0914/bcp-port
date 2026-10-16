@@ -285,6 +285,13 @@
       }
     },
     {
+      "name": "single_port_scope",
+      "status": "PASS",
+      "details": {
+        "cases": 9
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {
@@ -296,7 +303,7 @@
     {
       "role": "PORT_MANAGER",
       "file": "bcp-port_manager.pdf",
-      "bytes": 216453,
+      "bytes": 216457,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -324,7 +331,7 @@
     {
       "role": "HOKKAIDO_DEVELOPMENT_BUREAU",
       "file": "bcp-hokkaido_development_bureau.pdf",
-      "bytes": 217208,
+      "bytes": 217213,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",

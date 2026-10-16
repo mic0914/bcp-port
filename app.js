@@ -13,7 +13,7 @@ function displayComments(){const c=E.comments(sim),view=Object.fromEntries(Objec
 
 
 const initialDamagePhrases={LIGHT:'軽微な被害',MODERATE:'中程度の被害',SEVERE:'大きな被害',EXTREME:'甚大な被害'};
-function phaseSituation(phaseId,text){text=O.cleanSituation(phaseId,text);return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
+function phaseSituation(phaseId,text){text=O.cleanSituation(phaseId,text);return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、対象港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
 let sim=null,startedAt=0,timer=null,locked=false,lastPrint='';
 let outcomeReports=new Map(),decisionSituations=new Map();
 // Presentation-only state; never stored in or consulted by the simulation engine.
@@ -66,7 +66,7 @@ function outcomeMessage(parent,id){const report=outcomeReports.get(id);if(!repor
 function render(){
  if(!sim)return;
  const chat=$('chat');chat.replaceChildren();$('startScreen').hidden=true;chat.style.display='block';$('controlWrap').style.display='block';
- $('scenarioLabel').textContent=D.ROLE_META[sim.role].displayName+' ／ '+scenarioNames[sim.scenario]+' ／ 初期 '+severityNames[sim.initialSeverity]+' ／ 対応 '+severityNames[sim.responseLevel];
+ $('scenarioLabel').textContent=D.ROLE_META[sim.role].displayName+' ／ 対象：1港湾 ／ '+scenarioNames[sim.scenario]+' ／ 初期 '+severityNames[sim.initialSeverity]+' ／ 対応 '+severityNames[sim.responseLevel];
  $('turnLabel').textContent='判断 '+sim.completedPhaseIds.length+' / '+sim.targetPhaseCount;
  $('progressBar').style.width=(100*sim.completedPhaseIds.length/sim.targetPhaseCount)+'%';
 

@@ -524,6 +524,9 @@ function report(E,pre,post,id,choiceId){
  return {phaseId:id,choiceId,roleOwner:p.roleOwner,title,mode:profile.mode,text:[...new Set(sentences)].join('\n'),evidence,snapshotSource:'PHASE_MUTATION_BEFORE_EVENTS',afterMutation:after};
 }
 function cleanSituation(id,text){
+ // One assessed port; surrounding ports remain external coordination counterparts.
+ const scoped={ML01:'対象港湾の被害情報と支援に関する照会が届いています。国側の連絡情報には未確認の部分があります。',ML06:'対象港湾の被害情報には、確認範囲と更新時刻の異なる情報があります。対象港湾への国側支援に関する要請を整理する段階です。',MLX02:'対象港湾への支援要請と国側資源の配置情報があります。資源の活動条件と移動条件には差があります。'};
+ if(scoped[id])text=scoped[id];
  let view=String(text).split('。').filter(Boolean).map(sentence=>{
   if(sentence==='複数地域が同じ種類の資源を必要とする場面です')return '複数地域から同じ種類の資源が求められています';
   if(sentence==='広域の接続候補について情報を照会できる場面です')return '広域の接続候補に関する情報は照会が可能です';
