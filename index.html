@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>港湾BCPシミュレーション Ver.1.0</title><style>
+:root{
+  --bg:#eef2f5;--panel:#fff;--text:#1d2733;--sub:#5a6775;--header:#16324a;
+  --accent:#245b7a;--border:#d7dde5;--player:#d8f7c6;--event:#fff3cd;
+  --danger:#fde2e2;--system:#e9eef6;--result:#f7f9fb;--disabled:#9aa8b5;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;height:100%}
+body{display:flex;justify-content:center}
+.app{width:min(100%,860px);min-height:100vh;background:var(--panel);display:flex;flex-direction:column;box-shadow:0 0 24px rgba(0,0,0,.08)}
+header{position:sticky;top:0;z-index:20;background:var(--header);color:#fff;padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,.15)}
+.title{font-size:18px;font-weight:700;line-height:1.35;margin-bottom:4px}.title-sub{font-size:12px;font-weight:700;line-height:1.4;opacity:.9;margin-bottom:8px}
+.meta{display:grid;grid-template-columns:1fr auto auto;gap:8px 12px;align-items:center;font-size:13px}
+.meta .scenario{opacity:.94}.turn{font-weight:700}.timer{font-variant-numeric:tabular-nums;font-size:20px;font-weight:800;letter-spacing:.5px}.timer.overtime{color:#ffb3b3}
+.progress{height:4px;margin-top:9px;background:rgba(255,255,255,.18);overflow:hidden;border-radius:999px}.progress>div{height:100%;width:0;background:#d8eef9;transition:width .25s ease}
+.level-help-row{margin-top:8px;display:flex;justify-content:flex-end}.level-help-btn{min-height:30px;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:12px;font-weight:700;cursor:pointer}
+.level-guide{display:none;margin-top:8px;background:rgba(255,255,255,.98);color:var(--text);border-radius:10px;padding:9px 10px;box-shadow:0 4px 12px rgba(0,0,0,.16);font-size:12px;line-height:1.5}.level-guide.open{display:block}.level-guide-grid{display:grid;grid-template-columns:auto auto 1fr;gap:4px 8px}.level-guide .lv,.level-guide .name{font-weight:800}
+#chat{flex:1;overflow-y:auto;padding:18px 14px calc(var(--control-height,260px) + 24px);scroll-padding-bottom:calc(var(--control-height,260px) + 24px);background:linear-gradient(rgba(255,255,255,.87),rgba(255,255,255,.87)),repeating-linear-gradient(0deg,#f8fafc 0,#f8fafc 24px,#f4f7f9 25px)}
+.msg-row{display:flex;margin:10px 0;scroll-margin-bottom:calc(var(--control-height,260px) + 24px)}.msg-row.left{justify-content:flex-start}.msg-row.right{justify-content:flex-end}
+.msg{max-width:80%;border-radius:16px;padding:10px 12px;line-height:1.55;font-size:14px;border:1px solid var(--border);box-shadow:0 1px 2px rgba(0,0,0,.03);white-space:pre-wrap;word-break:break-word}
+.msg .name{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:4px}.msg.player{background:var(--player)}.msg.system{background:var(--system)}.msg.result{background:var(--result);border-left:4px solid var(--accent)}.msg.event{background:var(--event);border-left:4px solid #c99700}.msg.event.danger{background:var(--danger);border-left-color:#c93b3b}.msg.score{background:#eef7ff;border-left:4px solid #2f6d9b}
+.chip{display:inline-block;margin-top:6px;padding:2px 7px;border-radius:999px;border:1px solid #ccd6df;color:#435160;font-size:11px;background:#fff}
+.control-wrap{position:fixed;bottom:0;width:min(100%,860px);z-index:30;background:rgba(255,255,255,.985);border-top:1px solid var(--border);padding:10px 12px 12px;box-shadow:0 -6px 18px rgba(0,0,0,.06)}
+.prompt{font-size:12px;color:var(--sub);margin-bottom:7px}.choice-list{display:grid;grid-template-columns:1fr;gap:8px}
+button{border:0;font:inherit;font-weight:700;cursor:pointer}.choice-button{width:100%;min-height:48px;border-radius:12px;padding:10px 14px;text-align:left;line-height:1.4;background:#fff;color:var(--text);border:1px solid #aebbc7;box-shadow:0 1px 2px rgba(0,0,0,.04)}.choice-button:hover:not(:disabled){background:#f3f7fa;border-color:#7f93a5}.choice-button:disabled{color:#6e7a86;background:#eef2f5;border-color:#cfd7df;cursor:default}
+.secondary{background:#5f6f7e;color:#fff;border-radius:10px;padding:11px 12px}.reconsider{width:100%;margin-top:8px;min-height:42px;border-radius:10px;padding:9px 12px;background:#c62828;color:#fff;display:none;text-align:center}.reconsider:hover:not(:disabled){background:#ad2020}.reconsider:disabled{background:#b88b8b;color:#fff;cursor:default}.restart{width:100%;margin-top:8px;display:none}.small-note{font-size:11px;color:var(--sub);margin-top:6px}
+.pdf-export-row{display:flex;justify-content:center;margin:14px 0 6px}.pdf-export-button{min-width:180px;min-height:42px;border-radius:10px;padding:9px 18px;background:var(--accent);color:#fff}.pdf-export-button:hover{filter:brightness(.94)}
+#printReport{display:none}
+@media print{
+ @page{size:A4 portrait;margin:20mm}
+ html,body{width:auto;height:auto;background:#fff!important}
+ body.pdf-printing .app{display:none!important}
+ body.pdf-printing #printReport{display:block!important}
+ #printReport{font-family:"Yu Gothic","Yu Gothic UI",Meiryo,sans-serif;color:#111;font-size:9.2pt;line-height:1.42;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #printReport .pdf-message{display:grid;grid-template-columns:28mm 1fr;column-gap:4mm;padding:2.1mm 1.8mm;border-bottom:.2mm solid #d7dde5;break-inside:avoid;page-break-inside:avoid}
+ #printReport .pdf-message.result{background:#e8f3ff}
+ #printReport .pdf-message.player{background:#e7f7df}
+ #printReport .pdf-name{font-weight:700;font-size:8.4pt;color:#405160;word-break:break-word}
+ #printReport .pdf-body{white-space:pre-wrap;word-break:break-word}
+ #printReport .pdf-chip{display:inline-block;margin-top:1.2mm;padding:.4mm 1.6mm;border:.2mm solid #aebbc7;border-radius:3mm;font-size:7.8pt;color:#435160}
+ #printReport .pdf-message.result .pdf-name{color:#174f7a}
+ #printReport .pdf-message.player .pdf-name{color:#2e5a23}
+ #printReport .pdf-message.event .pdf-name,#printReport .pdf-message.danger .pdf-name{color:#8a4e00}
+ #printReport .pdf-message.score .pdf-name{color:#245b7a}
+}
+#startScreen{padding:28px 18px 180px;background:#f7f9fb;min-height:calc(100vh - 100px)}.start-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.start-card h2{margin:0 0 8px;font-size:18px}.start-card p{margin:0 0 12px;color:var(--sub);line-height:1.6;font-size:14px}.scenario-grid{display:grid;gap:10px}.scenario-btn{width:100%;text-align:left;border:1px solid #9fb0bf;border-radius:12px;background:#fff;color:var(--text);padding:14px}.scenario-btn strong{display:block;font-size:16px;margin-bottom:4px}.scenario-btn span{font-size:12px;color:var(--sub);font-weight:500}.scenario-btn:hover{background:#f1f6f9}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#e8eef4;color:#314354;font-size:11px;font-weight:700;margin-right:5px}
+@media(max-width:560px){
+ .title{font-size:16px}
+ .meta{grid-template-columns:1fr auto}
+ .meta .scenario{grid-column:1/-1}
+ .msg{max-width:88%}
+ #chat{padding-left:10px;padding-right:10px}
+ .control-wrap{padding:6px 8px max(7px,env(safe-area-inset-bottom))}
+ .prompt{font-size:11px;margin-bottom:4px;line-height:1.2}
+ .choice-list{gap:4px}
+ .choice-button{min-height:40px;padding:6px 10px;border-radius:9px;font-size:13px;line-height:1.2}
+ .reconsider{margin-top:5px;min-height:36px;padding:6px 10px;font-size:13px}
+ .restart{margin-top:5px;padding:8px 10px}
+ .small-note{display:none}
+}
+
+[hidden]{display:none!important}.app{height:100dvh;min-height:100vh}.start-screen{overflow:auto}#startScreen{flex:1;min-height:0;padding-bottom:36px;overflow:auto}#chat{padding:18px 14px 24px;min-height:100px}.control-wrap{position:relative;width:100%;max-height:55dvh;overflow:auto;flex-shrink:0}.title-sub{display:flex;justify-content:space-between;align-items:center}.header-link{background:transparent;border:1px solid #7992a6;color:white;padding:4px 10px;border-radius:20px;font-size:12px}.role-grid{display:grid;gap:9px}.role-option{border:1px solid #a9b9c7;border-radius:12px;padding:13px;display:flex;gap:12px;cursor:pointer;align-items:center}.role-option:has(input:checked){background:#e8f3ff;border-color:#245b7a}.role-option strong{display:block}.role-option small{display:block;margin-top:4px;color:#5a6775;font-size:12px;font-weight:400}.field{margin:14px 0}.field label{display:block;font-size:14px;font-weight:700;margin-bottom:7px}select{width:100%;font:inherit;border:1px solid #a9b9c7;border-radius:10px;padding:12px;color:#1d2733;background:white}.start-button{width:100%;padding:14px;border-radius:12px;background:#245b7a;color:white}.start-button:disabled{background:#9aa8b5;cursor:not-allowed}.role-option input{accent-color:#245b7a;width:19px;height:19px}.msg.phase{background:#e8f3ff;border-left:4px solid #245b7a}.runtime-detail{font-size:12px;border:1px solid #d7dde5;border-radius:10px;padding:10px;background:#f7f9fb;margin:12px 0}.runtime-detail pre{white-space:pre-wrap;line-height:1.6;font:inherit}.choice-label{display:inline-block;font-size:14px;width:24px;color:#245b7a}.choice-context{display:block;font-size:10px;font-weight:400;color:#637383;margin:4px 0 0 24px}.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}.metric-card{border:1px solid #d7dde5;background:#f7f9fb;border-radius:12px;padding:14px}.metric-card:last-child{grid-column:1/-1}.metric-name{font-size:12px;color:#5a6775;margin-bottom:8px}.metric-value{font-size:28px;color:#16324a}.metric-unit{font-size:12px;color:#5a6775}.error-box{padding:12px;background:#fde2e2;color:#8d1515;border:1px solid #d18383}.restart[hidden]{display:none!important}.restart{display:block}.chat-end{height:1px}fieldset{border:0;margin:0;padding:0}legend{font-weight:700;margin-bottom:10px}.note{font-size:12px;color:#5a6775;line-height:1.65}
+@media(max-width:560px){.control-wrap{max-height:57dvh}.title-sub{font-size:11px}.choice-button{line-height:1.4;padding:8px 10px}.choice-context{font-size:9px}.msg{max-width:93%}.metric-value{font-size:24px}}
+@media print{body{display:block!important}.app{display:none!important}#printReport{display:block!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}#printReport .pdf-message.phase{background:#e8f3ff!important}#printReport .pdf-message.player{background:#e7f7df!important}#printReport h1{font-size:16pt}#printReport h2{font-size:12pt;margin-top:8mm}.pdf-summary{white-space:pre-wrap}.error-box{display:none!important}}
+</style></head><body><div class="app"><header><div class="title">港湾BCPシミュレーション</div><div class="title-sub"><span>役割に応じた災害対応訓練 ／ Ver.1.0</span><button id="newSessionButton" class="header-link" type="button">条件選択へ</button></div><div class="meta"><div class="scenario" id="scenarioLabel">役割・災害条件を選択</div><div class="turn" id="turnLabel">判断 -- / --</div><div class="timer" id="timerLabel">10:00</div></div><div class="progress"><div id="progressBar"></div></div></header><div id="errorBox" class="error-box" role="alert" hidden></div><section id="startScreen"><form id="startForm"><div class="start-card"><h2>担当する役割を選択</h2><p>自分の役割が扱う範囲で、災害時の対応を判断します。</p><fieldset class="role-grid"><legend class="sr-only">役割（必須）</legend><label class="role-option"><input type="radio" name="role" value="PORT_MANAGER" required><span><strong>港湾管理者</strong><small>自港施設の利用条件・受入れ・復旧優先順位</small></span></label><label class="role-option"><input type="radio" name="role" value="HOKKAIDO_DEVELOPMENT_BUREAU" required><span><strong>北海道開発局</strong><small>技術支援・国側資源・広域の連絡調整</small></span></label><label class="role-option"><input type="radio" name="role" value="TERMINAL_OPERATOR" required><span><strong>ターミナル・荷役事業者</strong><small>自社の作業員・設備・ヤード・荷役運用</small></span></label></fieldset></div><div class="start-card"><h2>災害条件</h2><div class="field"><label for="scenarioSelect">災害</label><select id="scenarioSelect" name="scenario"><option value="EQTS">地震・津波</option><option value="TCSS">台風・高潮</option><option value="TCHW">高波・暴風</option></select></div><div class="field"><label for="severitySelect">初期規模</label><select id="severitySelect" name="severity"><option value="LIGHT">LIGHT — 軽度（10判断から）</option><option value="MODERATE" selected>MODERATE — 中程度（13判断から）</option><option value="SEVERE">SEVERE — 重度（17判断）</option><option value="EXTREME">EXTREME — 甚大（17判断）</option></select></div><p class="note">状況の変化に応じて、判断数は10→13→17へ増えることがあります。10分は目安です。時間による減点はありません。</p><button id="startButton" class="start-button" type="submit" disabled>訓練を開始する</button></div><p class="note">本シミュレーションは訓練用です。確率・能力値・評価は内部設定であり、国の公式値ではありません。</p></form></section><main id="chat" aria-live="polite" style="display:none"></main><div id="controlWrap" class="control-wrap" style="display:none"><div id="promptText" class="prompt"></div><div id="choiceList" class="choice-list"></div><button id="restartButton" class="restart secondary" type="button" hidden>役割・災害条件を選び直す</button></div></div><section id="printReport" aria-hidden="true"></section><script src="bcp_port_master_data_v1_0.js"></script><script src="engine.js"></script><script src="app.js"></script></body></html>

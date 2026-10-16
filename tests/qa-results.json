@@ -1,0 +1,2163 @@
+{
+  "static": {
+    "counts": {
+      "roles": 3,
+      "phases": 51,
+      "basicChoices": 204,
+      "effectiveChoices": 612,
+      "situations": 153,
+      "events": 12,
+      "actionTags": 204,
+      "relevanceCandidates": 27,
+      "hardTriggers": 27,
+      "roleContamination": 0
+    },
+    "balance": {
+      "A": 13,
+      "B": 13,
+      "C": 13,
+      "D": 12
+    },
+    "errors": [],
+    "ERROR": 0,
+    "status": "PASS"
+  },
+  "masterData": {
+    "status": "PASS",
+    "pass": 276,
+    "fail": 0,
+    "tests": [
+      {
+        "name": "counts_3_51_204_153_204",
+        "status": "PASS"
+      },
+      {
+        "name": "score_count_10",
+        "status": "PASS"
+      },
+      {
+        "name": "score_count_7",
+        "status": "PASS"
+      },
+      {
+        "name": "score_count_3",
+        "status": "PASS"
+      },
+      {
+        "name": "score_count_0",
+        "status": "PASS"
+      },
+      {
+        "name": "stable_unique_IDs",
+        "status": "PASS"
+      },
+      {
+        "name": "text_and_tag_nonblank",
+        "status": "PASS"
+      },
+      {
+        "name": "role_authority_boundary_metadata",
+        "status": "PASS"
+      },
+      {
+        "name": "role_semantic_audit_records",
+        "status": "PASS"
+      },
+      {
+        "name": "display_balance_permutations",
+        "status": "PASS"
+      },
+      {
+        "name": "effective_choices_612_immutable",
+        "status": "PASS"
+      },
+      {
+        "name": "phase_classes_and_candidates_PORT_MANAGER",
+        "status": "PASS"
+      },
+      {
+        "name": "phase_classes_and_candidates_HOKKAIDO_DEVELOPMENT_BUREAU",
+        "status": "PASS"
+      },
+      {
+        "name": "phase_classes_and_candidates_TERMINAL_OPERATOR",
+        "status": "PASS"
+      },
+      {
+        "name": "relevance_hardTriggers_27",
+        "status": "PASS"
+      },
+      {
+        "name": "relevance_related_keys_valid",
+        "status": "PASS"
+      },
+      {
+        "name": "dependency_known_same_role_acyclic",
+        "status": "PASS"
+      },
+      {
+        "name": "linked_prerequisites_exact",
+        "status": "PASS"
+      },
+      {
+        "name": "events_12_probabilities48_windows12",
+        "status": "PASS"
+      },
+      {
+        "name": "event_sources_known_role_filtered",
+        "status": "PASS"
+      },
+      {
+        "name": "initial_capacities12_support100_pressure0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation51_classes_targets_no_inspection_repair",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM06_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM06_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM06_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM06_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM07_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM07_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM07_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM07_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM08_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM08_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM08_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM08_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM09_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM09_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM09_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM09_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM10_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM10_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM10_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM10_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM11_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM11_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM11_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM11_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PMX05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM12_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM12_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM12_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_PM12_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML06_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML06_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML06_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML06_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML07_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML07_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML07_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML07_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML08_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML08_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML08_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML08_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML09_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML09_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML09_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML09_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML10_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML10_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML10_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML10_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML11_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML11_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML11_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML11_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_MLX05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML12_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML12_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML12_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_ML12_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX01_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX01_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX01_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX01_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX02_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX02_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX02_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX02_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO06_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO06_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO06_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO06_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO07_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO07_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO07_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO07_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO08_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO08_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO08_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO08_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX03_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX03_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX03_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX03_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO09_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO09_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO09_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO09_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO10_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO10_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO10_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO10_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX04_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX04_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX04_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX04_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO11_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO11_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO11_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO11_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX05_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX05_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX05_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TOX05_0",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO12_10",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO12_7",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO12_3",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_once_TO12_0",
+        "status": "PASS"
+      },
+      {
+        "name": "TOX04_half_yard_and_pressure",
+        "status": "PASS"
+      },
+      {
+        "name": "request_flags_success_only",
+        "status": "PASS"
+      },
+      {
+        "name": "response_light_impact3",
+        "status": "PASS"
+      },
+      {
+        "name": "response_light_one_lt60",
+        "status": "PASS"
+      },
+      {
+        "name": "response_light_three_lt80",
+        "status": "PASS"
+      },
+      {
+        "name": "response_moderate_impact4",
+        "status": "PASS"
+      },
+      {
+        "name": "response_moderate_one_lt40",
+        "status": "PASS"
+      },
+      {
+        "name": "response_moderate_two_lt60",
+        "status": "PASS"
+      },
+      {
+        "name": "response_light_cascade_impact4",
+        "status": "PASS"
+      },
+      {
+        "name": "extreme_initial17_no_downgrade",
+        "status": "PASS"
+      },
+      {
+        "name": "frame_overflow_10_13_17",
+        "status": "PASS"
+      },
+      {
+        "name": "eventProgress_monotonic_10_13_17",
+        "status": "PASS"
+      },
+      {
+        "name": "probability_once_schedule_fixed_max3",
+        "status": "PASS"
+      },
+      {
+        "name": "false_probability_no_trigger_draw",
+        "status": "PASS"
+      },
+      {
+        "name": "event_tie_break_ID_order",
+        "status": "PASS"
+      },
+      {
+        "name": "amplification_completed_sources_snapshot_only",
+        "status": "PASS"
+      },
+      {
+        "name": "amplification_cap2_and_no_duplicate_event",
+        "status": "PASS"
+      },
+      {
+        "name": "overtopping_impact2_channel40_berth10",
+        "status": "PASS"
+      },
+      {
+        "name": "all0_E2E_response17_all9fixtures",
+        "status": "PASS"
+      },
+      {
+        "name": "PORT_TCHW_all10_response17",
+        "status": "PASS"
+      },
+      {
+        "name": "recheck_10_7_resolve_3_0_persist",
+        "status": "PASS"
+      },
+      {
+        "name": "new_recheck_not_retroactively_resolved",
+        "status": "PASS"
+      },
+      {
+        "name": "demand_effect_resolution_threshold20",
+        "status": "PASS"
+      },
+      {
+        "name": "substitute_keeps_source_effect",
+        "status": "PASS"
+      },
+      {
+        "name": "resolved_effect_risk_excluded_same_type_max",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_10_10",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_10_7",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_10_3",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_10_0",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_13_10",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_13_7",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_13_3",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_13_0",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_17_10",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_17_7",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_17_3",
+        "status": "PASS"
+      },
+      {
+        "name": "normalization_17_0",
+        "status": "PASS"
+      },
+      {
+        "name": "result_constants_metric_weights",
+        "status": "PASS"
+      },
+      {
+        "name": "comment_mappings_204_same_role",
+        "status": "PASS"
+      },
+      {
+        "name": "formal_CORE_IDs_exact",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_score_tables_exact",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_op_table_exact",
+        "status": "PASS"
+      },
+      {
+        "name": "mutation_clamp0_100",
+        "status": "PASS"
+      },
+      {
+        "name": "persistent_effects_not_resolved_by_inspection",
+        "status": "PASS"
+      },
+      {
+        "name": "support_and_functional_substitute_never_erase_RECHECK",
+        "status": "PASS"
+      },
+      {
+        "name": "event_OUTDOOR_impact4_expected_deltas",
+        "status": "PASS"
+      },
+      {
+        "name": "RECHECK_EVENT_no_capacity_delta",
+        "status": "PASS"
+      },
+      {
+        "name": "FIELD_ACCESS_EVENT_only_fieldAccess",
+        "status": "PASS"
+      },
+      {
+        "name": "demand_impact1_immediate_resolution_at20",
+        "status": "PASS"
+      },
+      {
+        "name": "unresolved_implementation_zero",
+        "status": "PASS"
+      }
+    ],
+    "scope": "Static data QA and reference unit fixtures only. No application E2E, PDF, restart UI or role-switch UI executed."
+  },
+  "smoke": [
+    {
+      "name": "PORT_MANAGER/EQTS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "PORT_MANAGER/EQTS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/EQTS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/EQTS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/LIGHT",
+      "status": "PASS",
+      "details": {
+        "count": 10
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/MODERATE",
+      "status": "PASS",
+      "details": {
+        "count": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/SEVERE",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/EXTREME",
+      "status": "PASS",
+      "details": {
+        "count": 17
+      }
+    }
+  ],
+  "escalation": [
+    {
+      "name": "PORT_MANAGER/EQTS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/EQTS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/10to13",
+      "status": "PASS",
+      "details": {
+        "target": 13
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/13to17",
+      "status": "PASS",
+      "details": {
+        "target": 17
+      }
+    }
+  ],
+  "normalization": [
+    {
+      "name": "10/10",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 10,
+        "rawScore": 100,
+        "maxRawScore": 100,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "criticalFailureRate": 0,
+        "decisionRisk": 0
+      }
+    },
+    {
+      "name": "10/7",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 10,
+        "rawScore": 70,
+        "maxRawScore": 100,
+        "decisionScore": 70,
+        "normalizedChoiceRisk": 8,
+        "criticalFailureRate": 0,
+        "decisionRisk": 8
+      }
+    },
+    {
+      "name": "10/3",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 10,
+        "rawScore": 30,
+        "maxRawScore": 100,
+        "decisionScore": 30,
+        "normalizedChoiceRisk": 32,
+        "criticalFailureRate": 0,
+        "decisionRisk": 32
+      }
+    },
+    {
+      "name": "10/0",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 10,
+        "rawScore": 0,
+        "maxRawScore": 100,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "criticalFailureRate": 100,
+        "decisionRisk": 100
+      }
+    },
+    {
+      "name": "13/10",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "criticalFailureRate": 0,
+        "decisionRisk": 0
+      }
+    },
+    {
+      "name": "13/7",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 13,
+        "rawScore": 91,
+        "maxRawScore": 130,
+        "decisionScore": 70,
+        "normalizedChoiceRisk": 8,
+        "criticalFailureRate": 0,
+        "decisionRisk": 8
+      }
+    },
+    {
+      "name": "13/3",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 13,
+        "rawScore": 39,
+        "maxRawScore": 130,
+        "decisionScore": 30,
+        "normalizedChoiceRisk": 32,
+        "criticalFailureRate": 0,
+        "decisionRisk": 32
+      }
+    },
+    {
+      "name": "13/0",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 13,
+        "rawScore": 0,
+        "maxRawScore": 130,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "criticalFailureRate": 100,
+        "decisionRisk": 100
+      }
+    },
+    {
+      "name": "17/10",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 17,
+        "rawScore": 170,
+        "maxRawScore": 170,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "criticalFailureRate": 0,
+        "decisionRisk": 0
+      }
+    },
+    {
+      "name": "17/7",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 17,
+        "rawScore": 119,
+        "maxRawScore": 170,
+        "decisionScore": 70,
+        "normalizedChoiceRisk": 8,
+        "criticalFailureRate": 0,
+        "decisionRisk": 8
+      }
+    },
+    {
+      "name": "17/3",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 17,
+        "rawScore": 51,
+        "maxRawScore": 170,
+        "decisionScore": 30,
+        "normalizedChoiceRisk": 32,
+        "criticalFailureRate": 0,
+        "decisionRisk": 32
+      }
+    },
+    {
+      "name": "17/0",
+      "status": "PASS",
+      "details": {
+        "completedPhaseCount": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "criticalFailureRate": 100,
+        "decisionRisk": 100
+      }
+    }
+  ],
+  "e2e": [
+    {
+      "name": "PORT_MANAGER/EQTS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 12.080000000000002,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 74.75,
+          "supportTransport": 79.75,
+          "cargoHandling": 80.75,
+          "hinterlandLogistics": 79.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "PORT_MANAGER/EQTS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 43.3,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 58.25,
+          "supportTransport": 73.75,
+          "cargoHandling": 80.75,
+          "hinterlandLogistics": 79.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 15.240000000000002,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 68.5,
+          "supportTransport": 80.25,
+          "cargoHandling": 78,
+          "hinterlandLogistics": 69.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCSS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 44.4,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 55.5,
+          "supportTransport": 72.75,
+          "cargoHandling": 78,
+          "hinterlandLogistics": 57.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/10",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 170,
+        "maxRawScore": 170,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 23.3,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 56,
+          "supportTransport": 72,
+          "cargoHandling": 78,
+          "hinterlandLogistics": 81
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "PORT_MANAGER/TCHW/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 56.800000000000004,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 39.5,
+          "supportTransport": 62,
+          "cargoHandling": 76,
+          "hinterlandLogistics": 81
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 12.080000000000002,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 74.75,
+          "supportTransport": 79.75,
+          "cargoHandling": 80.75,
+          "hinterlandLogistics": 79.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/EQTS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 43.3,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 58.25,
+          "supportTransport": 73.75,
+          "cargoHandling": 80.75,
+          "hinterlandLogistics": 79.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 15.240000000000002,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 68.5,
+          "supportTransport": 80.25,
+          "cargoHandling": 78,
+          "hinterlandLogistics": 69.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCSS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 44.4,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 55.5,
+          "supportTransport": 72.75,
+          "cargoHandling": 78,
+          "hinterlandLogistics": 57.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 15.24,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 65.5,
+          "supportTransport": 80,
+          "cargoHandling": 70.5,
+          "hinterlandLogistics": 76
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "HOKKAIDO_DEVELOPMENT_BUREAU/TCHW/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 45,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 49.5,
+          "supportTransport": 77,
+          "cargoHandling": 56.5,
+          "hinterlandLogistics": 67.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 7.6450000000000005,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 83.25,
+          "supportTransport": 88.75,
+          "cargoHandling": 83.25,
+          "hinterlandLogistics": 89.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/EQTS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 42.099999999999994,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 58.25,
+          "supportTransport": 83.75,
+          "cargoHandling": 68.25,
+          "hinterlandLogistics": 69.5
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 9.42,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 80.5,
+          "supportTransport": 85.25,
+          "cargoHandling": 83,
+          "hinterlandLogistics": 81.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCSS/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 41.2,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 60.5,
+          "supportTransport": 85.25,
+          "cargoHandling": 68,
+          "hinterlandLogistics": 72.25
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/10",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "rawScore": 130,
+        "maxRawScore": 130,
+        "decisionScore": 100,
+        "normalizedChoiceRisk": 0,
+        "decisionRisk": 0,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 0,
+        "finalImpact": 2,
+        "residualRisk": 15.360000000000001,
+        "missingActions": 0,
+        "metrics": {
+          "portRecovery": 67,
+          "supportTransport": 80,
+          "cargoHandling": 73,
+          "hinterlandLogistics": 78
+        },
+        "JSerrors": 0
+      }
+    },
+    {
+      "name": "TERMINAL_OPERATOR/TCHW/0",
+      "status": "PASS",
+      "details": {
+        "completed": 17,
+        "rawScore": 0,
+        "maxRawScore": 170,
+        "decisionScore": 0,
+        "normalizedChoiceRisk": 100,
+        "decisionRisk": 100,
+        "eventCount": 1,
+        "baseImpact": 2,
+        "amplification": 2,
+        "finalImpact": 4,
+        "residualRisk": 43.8,
+        "missingActions": 5,
+        "metrics": {
+          "portRecovery": 54,
+          "supportTransport": 77,
+          "cargoHandling": 64,
+          "hinterlandLogistics": 73.5
+        },
+        "JSerrors": 0
+      }
+    }
+  ],
+  "robustness": [
+    {
+      "name": "restart_role_switch_clean_state",
+      "status": "PASS"
+    },
+    {
+      "name": "late_EVENT_escalation_keeps_final_phase_last",
+      "status": "FAIL",
+      "error": "FINAL_PHASE_ESCALATION_CONFLICT"
+    }
+  ],
+  "summary": {
+    "smoke": {
+      "pass": 36,
+      "total": 36
+    },
+    "escalation": {
+      "pass": 18,
+      "total": 18
+    },
+    "normalization": {
+      "pass": 12,
+      "total": 12
+    },
+    "e2e": {
+      "pass": 18,
+      "total": 18
+    },
+    "robustness": {
+      "pass": 1,
+      "total": 2
+    }
+  },
+  "status": "FAIL"
+}

@@ -1,0 +1,56 @@
+'use strict';
+const fs=require('node:fs/promises'),path=require('node:path'),http=require('node:http'),cp=require('node:child_process'),os=require('node:os'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'qa-artifacts');
+const delay=ms=>new Promise(r=>setTimeout(r,ms));let chrome,server,ws;const results={tests:[],pdf:[],JSerrors:[],status:'RUNNING'};
+async function main(){
+ await fs.mkdir(out,{recursive:true});
+ const profile=await fs.mkdtemp(path.join(os.tmpdir(),'bcp-headless-'));
+ server=http.createServer(async(req,res)=>{try{const name=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html';if(!['index.html','app.js','engine.js','bcp_port_master_data_v1_0.js'].includes(name)){res.writeHead(404);res.end();return;}const b=await fs.readFile(path.join(root,name));res.setHeader('Content-Type',name.endsWith('.html')?'text/html; charset=utf-8':'text/javascript; charset=utf-8');res.end(b);}catch(e){res.writeHead(500);res.end('read failed');}});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));const port=server.address().port;
+ chrome=cp.spawn('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{windowsHide:true,stdio:'ignore'});
+ let dev;for(let i=0;i<200;i++){try{dev=(await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8')).trim().split(/\r?\n/);break;}catch{}await delay(50);}if(!dev)throw Error('Chrome DevTools unavailable');
+ ws=new WebSocket('ws://127.0.0.1:'+dev[0]+dev[1]);await new Promise((r,j)=>{ws.addEventListener('open',r,{once:true});ws.addEventListener('error',j,{once:true});});
+ let serial=0,session;const pending=new Map();
+ ws.addEventListener('message',event=>{const m=JSON.parse(event.data);if(m.id){const p=pending.get(m.id);if(p){pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(Error(JSON.stringify(m.error))):p.resolve(m.result);}}if(m.method==='Runtime.exceptionThrown')results.JSerrors.push(m.params.exceptionDetails);if(m.method==='Runtime.consoleAPICalled'&&m.params.type==='error')results.JSerrors.push(m.params.args.map(a=>a.value||a.description));});
+ const send=(method,params={},sid=session)=>new Promise((resolve,reject)=>{const id=++serial;const timer=setTimeout(()=>{pending.delete(id);reject(Error('CDP timeout '+method));},15000);pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params,...(sid?{sessionId:sid}:{})}));});
+ const target=await send('Target.createTarget',{url:'about:blank'},null);session=(await send('Target.attachToTarget',{targetId:target.targetId,flatten:true},null)).sessionId;
+ await send('Page.enable');await send('Runtime.enable');
+ const evaluate=async code=>{const r=await send('Runtime.evaluate',{expression:code,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.text+' '+(r.exceptionDetails.exception?.description||''));return r.result.value;};
+ await send('Emulation.setDeviceMetricsOverride',{width:1000,height:900,deviceScaleFactor:1,mobile:false});
+ await send('Page.navigate',{url:'http://127.0.0.1:'+port+'/index.html'});
+ for(let i=0;i<200;i++){if(await evaluate('!!window.BcpApp'))break;await delay(50);}
+ const check=async(name,fn)=>{try{const details=await fn();results.tests.push({name,status:'PASS',details});}catch(e){results.tests.push({name,status:'FAIL',error:e.message});}};
+ await check('role_required_above_disaster',async()=>{const r=await evaluate("({disabled:document.getElementById('startButton').disabled,roleY:document.querySelector('.role-grid').getBoundingClientRect().top,disasterY:document.getElementById('scenarioSelect').getBoundingClientRect().top})");assert.equal(r.disabled,true);assert.ok(r.roleY<r.disasterY);return r;});
+ await fs.writeFile(path.join(out,'start-desktop.png'),Buffer.from((await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true})).data,'base64'));
+ await check('start_form_click_and_first_answer',async()=>{await evaluate("document.querySelector('input[value=PORT_MANAGER]').click();document.getElementById('startButton').click();");const s=await evaluate('BcpApp.getState()');assert.equal(s.role,'PORT_MANAGER');assert.equal(s.currentPhaseId,'PM01');await evaluate("document.querySelector('.choice-button').click()");assert.equal((await evaluate('BcpApp.getState()')).completedPhaseIds.length,1);return {role:s.role};});
+ await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await delay(100);
+ await fs.writeFile(path.join(out,'phase-mobile.png'),Buffer.from((await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true})).data,'base64'));
+ await check('mobile_no_horizontal_overflow',async()=>{const r=await evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth,choices:document.querySelectorAll('.choice-button').length})");assert.ok(r.scroll<=r.width+1);assert.equal(r.choices,4);return r;});
+ await send('Emulation.setDeviceMetricsOverride',{width:1000,height:900,deviceScaleFactor:1,mobile:false});
+ const roles=['PORT_MANAGER','TERMINAL_OPERATOR','HOKKAIDO_DEVELOPMENT_BUREAU'];
+ for(const role of roles)await check('UI_complete_and_PDF_'+role,async()=>{
+  await evaluate("BcpApp.reset();BcpApp.start("+JSON.stringify({role,scenario:'EQTS',severity:'MODERATE'})+",{forcedEvents:[]})");
+  const before=await evaluate("JSON.stringify(BcpApp.getState())");await evaluate("BcpApp.render();BcpApp.render();BcpApp.render()");assert.equal(await evaluate("JSON.stringify(BcpApp.getState())"),before);
+  await evaluate("for(let n=0;n<20&&!BcpApp.getState().finished;n++){const s=BcpApp.getState(),p=BcpPort.byId[s.currentPhaseId],c=p.choices.find(c=>c.score===10);document.querySelector('[data-choice-id='+c.id+']').click();}");
+  const s=await evaluate('BcpApp.getState()');assert.equal(s.finished,true);assert.equal(s.history.length,s.completedPhaseIds.length);assert.ok(s.plannedPhaseIds.every(id=>id.startsWith(role==='PORT_MANAGER'?'PM':role==='TERMINAL_OPERATOR'?'TO':'ML')));
+  await evaluate('BcpApp.buildPrintReport()');
+  const printed=await evaluate("({text:document.getElementById('printReport').innerText,html:document.getElementById('printReport').innerHTML,phaseRows:document.querySelectorAll('#printReport .pdf-message.phase').length,playerRows:document.querySelectorAll('#printReport .pdf-message.player').length})");
+  assert.equal(printed.phaseRows,s.completedPhaseIds.length);assert.equal(printed.playerRows,s.completedPhaseIds.length);assert.ok(printed.html.includes('残留リスク')&&printed.html.includes('判断得点'));
+  await send('Emulation.setEmulatedMedia',{media:'print'});
+  const colors=await evaluate("({phase:getComputedStyle(document.querySelector('#printReport .phase')).backgroundColor,player:getComputedStyle(document.querySelector('#printReport .player')).backgroundColor,app:getComputedStyle(document.querySelector('.app')).display,print:getComputedStyle(document.getElementById('printReport')).display})");
+  assert.equal(colors.phase,'rgb(232, 243, 255)');assert.equal(colors.player,'rgb(231, 247, 223)');assert.equal(colors.app,'none');assert.notEqual(colors.print,'none');
+  const pdf=await send('Page.printToPDF',{printBackground:true,preferCSSPageSize:true,displayHeaderFooter:false});
+  const bytes=Buffer.from(pdf.data,'base64');assert.ok(bytes.subarray(0,5).toString()==='%PDF-');
+  const raw=bytes.toString('latin1'),boxes=[...raw.matchAll(/\/MediaBox\s*\[\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/g)];assert.ok(boxes.length);assert.ok(boxes.every(m=>Math.abs(+m[3]-595)<3&&Math.abs(+m[4]-842)<3));
+  const filename='bcp-'+role.toLowerCase()+'.pdf';await fs.writeFile(path.join(out,filename),bytes);
+  const screenshot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});await fs.writeFile(path.join(out,'print-'+role.toLowerCase()+'.png'),Buffer.from(screenshot.data,'base64'));
+  results.pdf.push({role,file:filename,bytes:bytes.length,pages:boxes.length,format:'A4 portrait',margin:'20mm CSS @page',backgroundColors:colors});
+  await send('Emulation.setEmulatedMedia',{media:''});
+  return {completed:s.completedPhaseIds.length,pdf:filename};
+ });
+ await check('restart_and_role_switch_UI_clean',async()=>{await evaluate('BcpApp.reset()');assert.equal(await evaluate('BcpApp.getState()'),null);const dom=await evaluate("({history:document.querySelectorAll('#chat .msg').length,print:document.getElementById('printReport').innerHTML,timer:document.getElementById('timerLabel').textContent})");assert.equal(dom.history,0);assert.equal(dom.print,'');assert.equal(dom.timer,'10:00');return dom;});
+ await check('JS_uncaught_zero',async()=>{assert.equal(results.JSerrors.length,0);return {count:0};});
+ results.status=results.tests.every(t=>t.status==='PASS')?'PASS':'FAIL';
+ await send('Browser.close',{},null).catch(()=>{});
+}
+main().catch(e=>{results.status='FAIL';results.fatal=e.message;}).finally(async()=>{if(ws)ws.close();if(chrome)chrome.kill();if(server)server.close();await fs.mkdir(out,{recursive:true});await fs.writeFile(path.join(out,'browser-qa.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));process.exitCode=results.status==='PASS'?0:1;});

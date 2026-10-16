@@ -1,0 +1,35 @@
+{
+  "role": "PORT_MANAGER",
+  "scenario": "TCSS",
+  "severity": "LIGHT",
+  "priorCompleted": 9,
+  "currentPhase": "PM12",
+  "priorTarget": 10,
+  "priorProgress": 0.9,
+  "triggerProgress": 0.9495,
+  "event": {
+    "eventId": "TC_ROAD_CLOSURE",
+    "baseImpact": 1,
+    "amplification": 2,
+    "finalImpact": 3,
+    "sourceDecisions": [
+      {
+        "phaseId": "PM09",
+        "completed": true,
+        "score": 0,
+        "contribution": 2
+      }
+    ],
+    "occurredAfterPhaseId": "PM12",
+    "occurrenceIndex": 0,
+    "progress": 1
+  },
+  "landAccessAfter": 55,
+  "responseAfter": "MODERATE",
+  "targetAfter": 13,
+  "remainingAfter": [
+    "PMX04",
+    "PM11",
+    "PMX05"
+  ]
+}

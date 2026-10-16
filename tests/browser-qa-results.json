@@ -1,0 +1,115 @@
+{
+  "tests": [
+    {
+      "name": "role_required_above_disaster",
+      "status": "PASS",
+      "details": {
+        "disabled": true,
+        "roleY": 239.484375,
+        "disasterY": 611.484375
+      }
+    },
+    {
+      "name": "start_form_click_and_first_answer",
+      "status": "PASS",
+      "details": {
+        "role": "PORT_MANAGER"
+      }
+    },
+    {
+      "name": "mobile_no_horizontal_overflow",
+      "status": "PASS",
+      "details": {
+        "width": 390,
+        "scroll": 390,
+        "choices": 4
+      }
+    },
+    {
+      "name": "UI_complete_and_PDF_PORT_MANAGER",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "pdf": "bcp-port_manager.pdf"
+      }
+    },
+    {
+      "name": "UI_complete_and_PDF_TERMINAL_OPERATOR",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "pdf": "bcp-terminal_operator.pdf"
+      }
+    },
+    {
+      "name": "UI_complete_and_PDF_HOKKAIDO_DEVELOPMENT_BUREAU",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "pdf": "bcp-hokkaido_development_bureau.pdf"
+      }
+    },
+    {
+      "name": "restart_and_role_switch_UI_clean",
+      "status": "PASS",
+      "details": {
+        "history": 0,
+        "print": "",
+        "timer": "10:00"
+      }
+    },
+    {
+      "name": "JS_uncaught_zero",
+      "status": "PASS",
+      "details": {
+        "count": 0
+      }
+    }
+  ],
+  "pdf": [
+    {
+      "role": "PORT_MANAGER",
+      "file": "bcp-port_manager.pdf",
+      "bytes": 216188,
+      "pages": 3,
+      "format": "A4 portrait",
+      "margin": "20mm CSS @page",
+      "backgroundColors": {
+        "phase": "rgb(232, 243, 255)",
+        "player": "rgb(231, 247, 223)",
+        "app": "none",
+        "print": "block"
+      }
+    },
+    {
+      "role": "TERMINAL_OPERATOR",
+      "file": "bcp-terminal_operator.pdf",
+      "bytes": 211292,
+      "pages": 3,
+      "format": "A4 portrait",
+      "margin": "20mm CSS @page",
+      "backgroundColors": {
+        "phase": "rgb(232, 243, 255)",
+        "player": "rgb(231, 247, 223)",
+        "app": "none",
+        "print": "block"
+      }
+    },
+    {
+      "role": "HOKKAIDO_DEVELOPMENT_BUREAU",
+      "file": "bcp-hokkaido_development_bureau.pdf",
+      "bytes": 215644,
+      "pages": 3,
+      "format": "A4 portrait",
+      "margin": "20mm CSS @page",
+      "backgroundColors": {
+        "phase": "rgb(232, 243, 255)",
+        "player": "rgb(231, 247, 223)",
+        "app": "none",
+        "print": "block"
+      }
+    }
+  ],
+  "JSerrors": [],
+  "status": "PASS"
+}
