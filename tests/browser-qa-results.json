@@ -220,6 +220,15 @@
       }
     },
     {
+      "name": "localized_all_events_runtime_results_PDF",
+      "status": "PASS",
+      "details": {
+        "cases": 72,
+        "rawCodes": 0,
+        "stateChanges": 0
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {
@@ -231,7 +240,7 @@
     {
       "role": "PORT_MANAGER",
       "file": "bcp-port_manager.pdf",
-      "bytes": 216188,
+      "bytes": 220777,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -245,7 +254,7 @@
     {
       "role": "TERMINAL_OPERATOR",
       "file": "bcp-terminal_operator.pdf",
-      "bytes": 211292,
+      "bytes": 216622,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -259,7 +268,7 @@
     {
       "role": "HOKKAIDO_DEVELOPMENT_BUREAU",
       "file": "bcp-hokkaido_development_bureau.pdf",
-      "bytes": 215644,
+      "bytes": 220312,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
