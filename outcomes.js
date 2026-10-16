@@ -519,7 +519,7 @@ function report(E,pre,post,id,choiceId){
  if(resolved.length)sentences.push([...new Set(resolved.map(e=>effectNames[e.type]))].join('・')+'は解消条件を満たしました。');
  if(still.length)sentences.push([...new Set(still.map(e=>effectNames[e.type]))].join('・')+'は継続しています。');
  if(!after.coordinationFlags[p.successFlag])sentences.push(({確認:'確認事項',条件:'運用条件の整理',代替:'代替手段の確保',調整:'関係先との調整',需要:'需要調整',復旧:'復旧支援の手配',支援:'支援の手配'})[profile.kind]+'には未了の条件が残ります。');
- sentences.push(profile.context);
+ // General guidance stays in the audit profiles; only state-derived results are displayed.
  const title=profile.kind==='確認'?'確認結果':['調整','需要'].includes(profile.kind)?'調整結果':profile.kind==='条件'?'運用条件':'対応結果';
  return {phaseId:id,choiceId,roleOwner:p.roleOwner,title,mode:profile.mode,text:[...new Set(sentences)].join('\n'),evidence,snapshotSource:'PHASE_MUTATION_BEFORE_EVENTS',afterMutation:after};
 }
