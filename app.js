@@ -31,8 +31,14 @@ function playIntro(){
  // A wall-clock fallback, independent of CSS animation support or animationend.
  introTimer=setTimeout(finishIntro,matchMedia('(prefers-reduced-motion: reduce)').matches?350:2400);
 }
+// Qualitative notification only; impact calculations and event state stay in the engine.
+function eventImpactDescription(event){
+ if(event.eventId==='EQ_AFTERSHOCK')return '施設の状態は、再確認するまで確定していません。';
+ const degree={1:'小さい',2:'中程度',3:'大きい',4:'非常に大きい'};
+ return '今回の事象による機能・運用への追加の影響は'+degree[event.finalImpact]+'状況です。';
+}
 function eventMessage(parent,event){
- const info=eventPresentation[event.eventId];const row=message(parent,'状況更新 · 追加事象',info[0]+'\n'+info[1]+'\n影響段階 '+event.finalImpact+' / 4（基本 '+event.baseImpact+'、事前判断による増幅 '+event.amplification+'）\n影響は訓練用の4段階です。発生自体は回答の正誤とは独立しています。','event');
+ const info=eventPresentation[event.eventId];const row=message(parent,'状況更新 · 追加事象',info[0]+'\n'+info[1]+'\n'+eventImpactDescription(event),'event');
  const key=event.eventId+':'+event.occurrenceIndex;row.dataset.eventId=event.eventId;
  if(!shownNotifications.has(key)){shownNotifications.add(key);eventAnimations++;row.querySelector('.msg').classList.add('event-notification');}
 }

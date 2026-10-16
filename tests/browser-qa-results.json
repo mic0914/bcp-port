@@ -276,6 +276,15 @@
       }
     },
     {
+      "name": "event_plain_language_48",
+      "status": "PASS",
+      "details": {
+        "cases": 48,
+        "internalScale": 0,
+        "duplicate": 0
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {
