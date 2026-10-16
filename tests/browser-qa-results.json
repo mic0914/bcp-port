@@ -74,6 +74,55 @@
       }
     },
     {
+      "name": "animation_EQTS",
+      "status": "PASS",
+      "details": {
+        "intro": 1,
+        "eventAnimations": 1,
+        "duplicates": 0,
+        "engineStateUnchanged": true,
+        "historyRetained": true
+      }
+    },
+    {
+      "name": "animation_TCSS",
+      "status": "PASS",
+      "details": {
+        "intro": 1,
+        "eventAnimations": 1,
+        "duplicates": 0,
+        "engineStateUnchanged": true,
+        "historyRetained": true
+      }
+    },
+    {
+      "name": "animation_TCHW",
+      "status": "PASS",
+      "details": {
+        "intro": 1,
+        "eventAnimations": 1,
+        "duplicates": 0,
+        "engineStateUnchanged": true,
+        "historyRetained": true
+      }
+    },
+    {
+      "name": "reduced_motion_mobile_restart",
+      "status": "PASS",
+      "details": {
+        "reducedMotion": true,
+        "overflow": 0,
+        "oldAnimationState": 0
+      }
+    },
+    {
+      "name": "CSS_animation_disabled_fallback",
+      "status": "PASS",
+      "details": {
+        "unblocked": true
+      }
+    },
+    {
       "name": "restart_and_role_switch_UI_clean",
       "status": "PASS",
       "details": {

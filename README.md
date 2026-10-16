@@ -1,6 +1,6 @@
 # bcp-port Ver.1.0
 
-**実装完成・公開待ち。Final Phase Gateを含む公開前QAは全PASS。GitHubへのpush・公開は未実施。詳細はIMPLEMENTATION_STATUS.md。**
+**UI演出追加完了・公開待ち。Final Phase GateとUI演出を含む公開前QAは全PASS。GitHubへのpush・公開は未実施。詳細はIMPLEMENTATION_STATUS.md。**
 
 静的GitHub Pages向け港湾BCP訓練。正本データは改変せず同梱。
 

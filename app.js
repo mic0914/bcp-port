@@ -4,6 +4,27 @@ const E=window.BcpPort,D=E.master,$=id=>document.getElementById(id),el=(tag,cls,
 const scenarioNames={EQTS:'地震・津波',TCSS:'台風・高潮',TCHW:'高波・暴風'},severityNames={LIGHT:'軽度',MODERATE:'中程度',SEVERE:'重度',EXTREME:'甚大'};
 const metricNames={portRecovery:'港湾機能回復率',supportTransport:'支援輸送機能',cargoHandling:'荷役機能',hinterlandLogistics:'背後物流機能',residualRisk:'残留リスク'};
 let sim=null,startedAt=0,timer=null,locked=false,lastPrint='';
+// Presentation-only state; never stored in or consulted by the simulation engine.
+let introTimer=null,introActive=false,introPlays=0,eventAnimations=0,shownNotifications=new Set();
+function finishIntro(){
+ if(introTimer!==null)clearTimeout(introTimer);introTimer=null;
+ if(!introActive)return;introActive=false;$('scenarioIntro').hidden=true;
+ $('chat').style.visibility='';$('controlWrap').style.visibility='';$('controlWrap').inert=false;
+ if(sim&&!sim.finished){startedAt=Date.now();timer=setInterval(updateTimer,1000);updateTimer();}
+}
+function clearPresentation(){if(introTimer!==null)clearTimeout(introTimer);introTimer=null;introActive=false;introPlays=0;eventAnimations=0;shownNotifications=new Set();$('scenarioIntro').hidden=true;$('chat').style.visibility='';$('controlWrap').style.visibility='';$('controlWrap').inert=false;}
+function playIntro(){
+ introActive=true;introPlays++;const overlay=$('scenarioIntro');overlay.dataset.scenario=sim.scenario;$('introTitle').textContent=scenarioNames[sim.scenario];overlay.hidden=false;
+ $('chat').style.visibility='hidden';$('controlWrap').style.visibility='hidden';$('controlWrap').inert=true;
+ // A wall-clock fallback, independent of CSS animation support or animationend.
+ introTimer=setTimeout(finishIntro,matchMedia('(prefers-reduced-motion: reduce)').matches?350:2400);
+}
+function eventMessage(parent,event){
+ const row=message(parent,'状況更新 · 追加EVENT',event.eventId+'\n基本影響 '+event.baseImpact+' ／ 判断による増幅 '+event.amplification+' ／ 最終影響 '+event.finalImpact,'event');
+ const key=event.eventId+':'+event.occurrenceIndex;row.dataset.eventId=event.eventId;
+ if(!shownNotifications.has(key)){shownNotifications.add(key);eventAnimations++;row.querySelector('.msg').classList.add('event-notification');}
+}
+
 const timeText=seconds=>{const left=600-seconds,abs=Math.abs(left);return (left<0?'＋':'')+String(Math.floor(abs/60)).padStart(2,'0')+':'+String(abs%60).padStart(2,'0');};
 function stopTimer(){if(timer!==null)clearInterval(timer);timer=null;}
 function updateTimer(){const elapsed=sim?Math.floor((Date.now()-startedAt)/1000):0;$('timerLabel').textContent=timeText(elapsed);$('timerLabel').classList.toggle('overtime',elapsed>600);}
@@ -25,24 +46,24 @@ function render(){
  $('scenarioLabel').textContent=D.ROLE_META[sim.role].displayName+' ／ '+scenarioNames[sim.scenario]+' ／ 初期 '+severityNames[sim.initialSeverity]+' ／ 対応 '+severityNames[sim.responseLevel];
  $('turnLabel').textContent='判断 '+sim.completedPhaseIds.length+' / '+sim.targetPhaseCount;
  $('progressBar').style.width=(100*sim.completedPhaseIds.length/sim.targetPhaseCount)+'%';
- for(const h of sim.history){message(chat,h.title,h.situation,'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))message(chat,'追加EVENT',e.eventId+'\n基本影響 '+e.baseImpact+' ／ 判断による増幅 '+e.amplification+' ／ 最終影響 '+e.finalImpact,'event');}
+ for(const h of sim.history){message(chat,h.title,h.situation,'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))eventMessage(chat,e);}
  const choices=$('choiceList');choices.replaceChildren();
  if(sim.finished){stopTimer();resultNodes(chat);$('promptText').textContent='シミュレーション終了';$('restartButton').hidden=false;buildPrintReport();}
  else {const p=E.byId[sim.currentPhaseId];message(chat,p.title,p.situationVariants[sim.scenario],'phase');const details=el('details','runtime-detail');details.append(el('summary','','現在の機能・需要・共有情報'),el('pre','',E.runtimeDetail(sim,p.id)));chat.append(details);$('promptText').textContent='あなたの役割として、次の対応を選択してください。';for(const choice of E.displayedChoices(p.id,sim.scenario)){const btn=el('button','choice-button');btn.type='button';btn.dataset.choiceId=choice.id;btn.append(el('span','choice-label',choice.position),el('span','choice-core',choice.textCore),el('small','choice-context',choice.context));btn.addEventListener('click',()=>choose(p.id,choice.id));choices.append(btn);} $('restartButton').hidden=true;}
  const stamp=el('div','chat-end');chat.append(stamp);requestAnimationFrame(()=>stamp.scrollIntoView({block:'end',behavior:'instant'}));
 }
 function choose(phaseId,choiceId){
- if(locked)return;locked=true;$('errorBox').hidden=true;
+ if(locked)return;if(introActive)finishIntro();locked=true;$('errorBox').hidden=true;
  try{sim=E.answer(sim,phaseId,choiceId);render();}
  catch(error){showError(error);}
  finally{locked=false;}
 }
 function showError(error){$('errorBox').textContent='処理を完了できませんでした：'+error.message;$('errorBox').hidden=false;console.error(error);}
 function begin(config,options={}){
- stopTimer();locked=false;$('errorBox').hidden=true;sim=E.start(config.role,config.scenario,config.severity,options);startedAt=Date.now();$('timerLabel').textContent='10:00';timer=setInterval(updateTimer,1000);updateTimer();$('printReport').replaceChildren();lastPrint='';document.body.classList.remove('pdf-printing');render();return E.clone(sim);
+ stopTimer();clearPresentation();locked=false;$('errorBox').hidden=true;sim=E.start(config.role,config.scenario,config.severity,options);startedAt=0;$('timerLabel').textContent='10:00';$('printReport').replaceChildren();lastPrint='';document.body.classList.remove('pdf-printing');render();playIntro();return E.clone(sim);
 }
 function reset(){
- stopTimer();sim=null;startedAt=0;locked=false;lastPrint='';$('chat').replaceChildren();$('chat').style.display='none';$('controlWrap').style.display='none';$('startScreen').hidden=false;$('printReport').replaceChildren();$('errorBox').hidden=true;$('scenarioLabel').textContent='役割・災害条件を選択';$('turnLabel').textContent='判断 -- / --';$('progressBar').style.width='0%';$('timerLabel').textContent='10:00';document.body.classList.remove('pdf-printing');
+ stopTimer();clearPresentation();sim=null;startedAt=0;locked=false;lastPrint='';$('chat').replaceChildren();$('chat').style.display='none';$('controlWrap').style.display='none';$('startScreen').hidden=false;$('printReport').replaceChildren();$('errorBox').hidden=true;$('scenarioLabel').textContent='役割・災害条件を選択';$('turnLabel').textContent='判断 -- / --';$('progressBar').style.width='0%';$('timerLabel').textContent='10:00';document.body.classList.remove('pdf-printing');
 }
 function buildPrintReport(){
  if(!sim?.finished)return;
@@ -60,9 +81,10 @@ function buildPrintReport(){
 function printReport(){buildPrintReport();document.body.classList.add('pdf-printing');window.print();}
 $('startForm').addEventListener('change',()=>{$('startButton').disabled=!document.querySelector('input[name=role]:checked');});
 $('startForm').addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.currentTarget);try{begin({role:form.get('role'),scenario:form.get('scenario'),severity:form.get('severity')});}catch(error){showError(error);}});
+$('introContinue').addEventListener('click',finishIntro);
 $('restartButton').addEventListener('click',reset);
 $('newSessionButton').addEventListener('click',reset);
 window.addEventListener('afterprint',()=>document.body.classList.remove('pdf-printing'));
-window.BcpApp={start:begin,choose,render,reset,getState:()=>sim?E.clone(sim):null,buildPrintReport,printReport,reportHTML:()=>lastPrint,stopTimer};
+window.BcpApp={start:begin,choose,render,reset,getState:()=>sim?E.clone(sim):null,buildPrintReport,printReport,reportHTML:()=>lastPrint,stopTimer,getPresentationState:()=>({introActive,introPlays,eventAnimations,shownNotifications:[...shownNotifications],timerRunning:timer!==null})};
 window.runBcpPortStaticQA=E.staticQA;
 })();
