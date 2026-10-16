@@ -10,6 +10,76 @@
       }
     },
     {
+      "name": "choice_layout_measurement",
+      "status": "PASS",
+      "details": [
+        {
+          "width": 1000,
+          "listHeight": 210,
+          "controlHeight": 256,
+          "gap": "6px",
+          "font": "16px",
+          "padding": "8px 12px",
+          "overflow": false,
+          "helperVisible": 0,
+          "buttons": [
+            {
+              "height": 48,
+              "text": "職員の安全と退避経路を確認し、危険区域への立入りを止め、安全を確保できる範囲で自港の初動対応を開始する。",
+              "label": "A"
+            },
+            {
+              "height": 48,
+              "text": "職員の安否と危険区域を確認して初動対応を開始するが、連絡途絶時の退避手順の共有は後にする。",
+              "label": "B"
+            },
+            {
+              "height": 48,
+              "text": "職員の安否確認だけを先行し、危険区域の設定が不十分なまま自港の現地対応を進める。",
+              "label": "C"
+            },
+            {
+              "height": 48,
+              "text": "危険情報と退避条件を確認せず、自港の被害確認のため職員を危険区域へ向かわせる。",
+              "label": "D"
+            }
+          ]
+        },
+        {
+          "width": 390,
+          "listHeight": 216.125,
+          "controlHeight": 247.3125,
+          "gap": "3px",
+          "font": "13px",
+          "padding": "6px 10px",
+          "overflow": false,
+          "helperVisible": 0,
+          "buttons": [
+            {
+              "height": 51.78125,
+              "text": "職員の安全と退避経路を確認し、危険区域への立入りを止め、安全を確保できる範囲で自港の初動対応を開始する。",
+              "label": "A"
+            },
+            {
+              "height": 51.78125,
+              "text": "職員の安否と危険区域を確認して初動対応を開始するが、連絡途絶時の退避手順の共有は後にする。",
+              "label": "B"
+            },
+            {
+              "height": 51.78125,
+              "text": "職員の安否確認だけを先行し、危険区域の設定が不十分なまま自港の現地対応を進める。",
+              "label": "C"
+            },
+            {
+              "height": 51.78125,
+              "text": "危険情報と退避条件を確認せず、自港の被害確認のため職員を危険区域へ向かわせる。",
+              "label": "D"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "start_form_click_and_first_answer",
       "status": "PASS",
       "details": {
@@ -129,6 +199,24 @@
         "history": 0,
         "print": "",
         "timer": "10:00"
+      }
+    },
+    {
+      "name": "choice_hover_focus_and_long_scroll",
+      "status": "PASS",
+      "details": {
+        "focus": {
+          "choice": true,
+          "outline": "solid",
+          "width": "3px"
+        },
+        "scroll": {
+          "scrollable": true,
+          "moved": true,
+          "overflow": false,
+          "internal": false,
+          "textIntact": true
+        }
       }
     },
     {
