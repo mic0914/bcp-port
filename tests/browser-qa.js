@@ -48,6 +48,11 @@ async function main(){
   await send('Emulation.setEmulatedMedia',{media:''});
   return {completed:s.completedPhaseIds.length,pdf:filename};
  });
+ for(const role of roles)await check('final_gate_UI_'+role,async()=>{
+ await evaluate('BcpApp.reset();BcpApp.start('+JSON.stringify({role,scenario:'TCSS',severity:'LIGHT'})+','+JSON.stringify({forcedEvents:[{eventId:role==='TERMINAL_OPERATOR'?'TC_POWER_LONG':'TC_ROAD_CLOSURE',triggerProgress:.95}]})+')');
+ await evaluate("for(let n=0;n<20&&!BcpApp.getState().finished;n++){const s=BcpApp.getState(),p=BcpPort.byId[s.currentPhaseId],c=p.choices.find(c=>c.score===0);if(p.id===BcpPort.master.ROLE_PHASES[s.role].at(-1).id&&BcpPort.pendingRuntimeEvents(s).length)throw Error('gate pending at display');BcpApp.render();BcpApp.render();document.querySelector('[data-choice-id='+c.id+']').click();}");
+ const s=await evaluate('BcpApp.getState()');assert.equal(s.finished,true);assert.equal(s.targetPhaseCount,13);assert.equal(s.additionalEvents.length,1);assert.equal(s.completedPhaseIds.at(-1),role==='PORT_MANAGER'?'PM12':role==='TERMINAL_OPERATOR'?'TO12':'ML12');return {completed:s.completedPhaseIds.length,final:s.completedPhaseIds.at(-1)};
+ });
  await check('restart_and_role_switch_UI_clean',async()=>{await evaluate('BcpApp.reset()');assert.equal(await evaluate('BcpApp.getState()'),null);const dom=await evaluate("({history:document.querySelectorAll('#chat .msg').length,print:document.getElementById('printReport').innerHTML,timer:document.getElementById('timerLabel').textContent})");assert.equal(dom.history,0);assert.equal(dom.print,'');assert.equal(dom.timer,'10:00');return dom;});
  await check('JS_uncaught_zero',async()=>{assert.equal(results.JSerrors.length,0);return {count:0};});
  results.status=results.tests.every(t=>t.status==='PASS')?'PASS':'FAIL';

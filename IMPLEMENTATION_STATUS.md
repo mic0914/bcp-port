@@ -1,12 +1,20 @@
-# bcp-port Ver.1.0 実装検証状況
+# bcp-port Ver.1.0 公開前QA
 
-状態：未完成・未公開。追加境界試験に1件FAILがあるため公開を停止。
+状態：実装完成・公開待ち。GitHub操作・Cloudflare操作なし。
 
-## 実装
+## Final Phase Gate
 
-index.html、app.js、engine.js。正本JS/JSONは前工程の内容をそのまま同梱。UI参考blob 972d151de02bde18f012fcf3d691ef02d1715609を照合済み。参照元リポジトリへの書込みなし。
+PM12 / ML12 / TO12を表示する前に、開始時採用済み（最大3件）の未発火EVENTをtriggerProgress・EVENT ID順に処理する。eventProgressは1へ進め、各EVENTのamplification / effect / capacity / pressure反映後にresponseLevel・hardTrigger・Phase planを再評価する。追加判断があれば未回答の最終Phaseを延期する。完了済みresultは変更しない。
 
-## QA
+最終Phase回答後はEVENT抽選・発火・再計画を行わない。最終Phase完了、採用済みpending EVENT 0、未完了planned Phase 0を完了条件とする。EVENT triggered及びstateMutationAppliedにより二重適用を防ぐ。正本データの本文・score・ID・tag等は変更していない。今回の境界仕様はユーザー指定による実装追補。
+
+## 再現FAILと修正
+
+対象：PORT / TCSS / LIGHT / 全0点、TC_ROAD_CLOSURE triggerProgress=0.9495。旧実値：PM12回答後の10→13でFINAL_PHASE_ESCALATION_CONFLICT。原因：最終回答後のEVENT処理と最終Phase最後の条件が衝突。修正後：PM12表示前にEVENTを処理、3判断を追加後PM12を最後に回答、13/13完了。再試験PASS。
+
+TERMINAL境界fixtureはTC_POWER_LONGを使用する。TC_ROAD_CLOSUREはTERMINALの事前判断sourceを持たずLIGHTから昇格しないため、最初の試験期待13/実値10をfixture不備として修正。仕様・データは変更せず再試験PASS。
+
+## QA結果
 
 |項目|結果|
 |---|---|
@@ -16,38 +24,24 @@ index.html、app.js、engine.js。正本JS/JSONは前工程の内容をそのま
 |escalation|18/18 PASS|
 |normalization|12/12 PASS|
 |最新版E2E|18/18 PASS|
-|EVENT・mutation idempotency|正本reference276項目及び実装E2E・3回renderでPASS|
-|restart / role switch|engine及びブラウザPASS|
-|PDF|3役各1件・全9ページ、A4縦/約20mm/青緑背景/目視確認PASS|
-|JS errors|通常ブラウザfixture0。下記境界は処理停止としてFAIL|
-|追加robustness|1/2 PASS、1 FAIL|
+|Final Phase Gate境界|6/6 PASS：3役10→13、13→17、EVENTなし、複数遅延EVENT|
+|通常ブラウザ|11/11 PASS、3役遅延EVENTのDOM回答含む|
+|EVENT delta|impact2/4 PASS、HW_OVERTOPPING impact2 channel -40 / berth -10|
+|EVENT / mutation idempotency|PASS、重複0、204択の回答再適用を検査|
+|restart / role switch|engine・ブラウザPASS|
+|PDF|3役各1件・9ページ、A4縦/20mm/青緑背景、描画目視PASS|
+|JS uncaught / NaN / Infinity|0 / 0 / 0|
+|5 metrics|全E2E及びEXTREME 36ケースで有限・範囲内|
 
-## 未解決：最終回答後の遅いEVENTによる昇格
-
-再現fixture：PORT_MANAGER / TCSS / LIGHT / 全0点。開始時RNG [0.999,0.999,0.999,0,0.999]。
-
-1. TC_ROAD_CLOSUREだけ候補となり、triggerProgress=0.9495。
-2. 9/10完了時progress=0.9、現在PM12（最終Phase）。PM09は0点で完了済み。
-3. PM12回答後、progress=1となりEVENT発火。
-4. baseImpact1+amplification2=finalImpact3、landAccess90→55。
-5. 正本responseLevel規則によりLIGHT→MODERATE、10→13Phase。
-6. 追加未実施PhaseはPMX04/PM11/PMX05。しかしPM12は既に回答完了しており、完了済みPhase固定と最終Phaseは最後という規則が衝突する。
-
-実装はFINAL_PHASE_ESCALATION_CONFLICTを検出し、回答transactionをcommitせず直前stateを維持する。過去結果の削除・書換えやEVENT無効化で隠していない。
-
-期待：追加判断を実施しつつ最終Phaseを最後に保つ。実値：衝突を検出し処理停止。原因：正本にこの境界の扱いがない。修正内容：検出guardと再現試験を追加。再試験：FAIL再現。正本の扱い確定後にコードを合わせて再試験する必要がある。
-
-必要な正本判断：最終Phase回答後のEVENTで増枠する場合、最終Phaseの結果をどう扱うか。完了済み結果固定・最終Phase順・EVENT発火時点の優先関係を明示すること。
-
-## 公開接続
-
-GitHub connectorから参照元blob取得は成功。bcp-portは404。GitHub CLIは未認証で、gh repo create mic0914/bcp-port --publicは認証要求で終了した。新規リポジトリ・remote commit・Pagesは未作成。Cloudflareは未使用。
-
-## 再試験
+## 再実行
 
 node tests/qa.js
+node tests/final-phase-boundary.js
+node tests/runtime-extra.js
 node tests/browser-qa.js
 
-qa-results.jsonとlate-event-evidence.jsonに失敗の詳細を収録。browser-qa.jsは専用headless Chromeだけを使い、既存ブラウザのprofileを使用しない。PDFと画像はqa-artifactsへ生成する。
+tests/*results.jsonに結果を保存。late-event-evidence.jsonは修正前の履歴証跡であり現在の判定ではない。browser-qa.jsは独立したheadless Chromeを使用。PDFはqa-artifactsへ生成し、全9ページを再描画して確認した。
 
-正本は変更せず、アプリは未公開の検証版として保存。完成・公開可能とは判定しない。
+## 公開
+
+GitHub CLI auth statusは未認証。今回は認証・repository作成・push・Pages公開を行っていない。公開には別工程でGitHub認証と公開操作が必要。mic0914/-及びmic0914/ijikannriへの変更なし。Cloudflare未使用。

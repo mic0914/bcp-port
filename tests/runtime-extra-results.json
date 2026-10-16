@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "EVENT_delta_and_idempotency",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase_mutation_idempotency_all_204",
+      "status": "PASS"
+    },
+    {
+      "name": "NaN_Infinity_zero",
+      "status": "PASS"
+    }
+  ]
+}

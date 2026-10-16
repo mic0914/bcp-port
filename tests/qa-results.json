@@ -2133,8 +2133,29 @@
     },
     {
       "name": "late_EVENT_escalation_keeps_final_phase_last",
-      "status": "FAIL",
-      "error": "FINAL_PHASE_ESCALATION_CONFLICT"
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "events": [
+          {
+            "eventId": "TC_ROAD_CLOSURE",
+            "baseImpact": 1,
+            "amplification": 2,
+            "finalImpact": 3,
+            "sourceDecisions": [
+              {
+                "phaseId": "PM09",
+                "completed": true,
+                "score": 0,
+                "contribution": 2
+              }
+            ],
+            "occurredAfterPhaseId": "PM10",
+            "occurrenceIndex": 0,
+            "progress": 1
+          }
+        ]
+      }
     }
   ],
   "summary": {
@@ -2155,9 +2176,9 @@
       "total": 18
     },
     "robustness": {
-      "pass": 1,
+      "pass": 2,
       "total": 2
     }
   },
-  "status": "FAIL"
+  "status": "PASS"
 }

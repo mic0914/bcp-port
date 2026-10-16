@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "pass": 6,
+  "total": 6,
+  "tests": [
+    {
+      "name": "LIGHT_late_PORT_MANAGER",
+      "status": "PASS",
+      "details": {
+        "target": 13,
+        "completed": 13,
+        "additionalBeforeFinal": 3,
+        "final": "PM12",
+        "events": 1
+      }
+    },
+    {
+      "name": "LIGHT_late_HOKKAIDO_DEVELOPMENT_BUREAU",
+      "status": "PASS",
+      "details": {
+        "target": 13,
+        "completed": 13,
+        "additionalBeforeFinal": 3,
+        "final": "ML12",
+        "events": 1
+      }
+    },
+    {
+      "name": "LIGHT_late_TERMINAL_OPERATOR",
+      "status": "PASS",
+      "details": {
+        "target": 13,
+        "completed": 13,
+        "additionalBeforeFinal": 3,
+        "final": "TO12",
+        "events": 1
+      }
+    },
+    {
+      "name": "MODERATE_13_to_17",
+      "status": "PASS",
+      "details": {
+        "target": 17,
+        "completed": 17,
+        "additionalBeforeFinal": 4,
+        "final": "PM12",
+        "events": 1
+      }
+    },
+    {
+      "name": "no_pending_events",
+      "status": "PASS",
+      "details": {
+        "completed": 10
+      }
+    },
+    {
+      "name": "multiple_late_events_max3_idempotency",
+      "status": "PASS",
+      "details": {
+        "events": 3,
+        "duplicates": 0,
+        "completed": 13
+      }
+    }
+  ]
+}

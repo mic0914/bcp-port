@@ -50,6 +50,30 @@
       }
     },
     {
+      "name": "final_gate_UI_PORT_MANAGER",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "final": "PM12"
+      }
+    },
+    {
+      "name": "final_gate_UI_TERMINAL_OPERATOR",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "final": "TO12"
+      }
+    },
+    {
+      "name": "final_gate_UI_HOKKAIDO_DEVELOPMENT_BUREAU",
+      "status": "PASS",
+      "details": {
+        "completed": 13,
+        "final": "ML12"
+      }
+    },
+    {
       "name": "restart_and_role_switch_UI_clean",
       "status": "PASS",
       "details": {

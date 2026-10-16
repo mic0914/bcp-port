@@ -130,12 +130,32 @@ function dependencyWarnings(s,id){
  for(const source of sources){const r=s.phaseResults[source];if(!r?.completed)result.push({phaseId:source,status:'PENDING'});else if(r.score<=3)result.push({phaseId:source,status:r.score===0?'CRITICAL':'WARNING'});}
  }return result;
 }
+function pendingRuntimeEvents(s){return s.eventSchedule.filter(e=>e.selectedForRun&&e.willOccur&&!e.triggered);}
+function eventOrder(a,b){return (a.triggerProgress??1)-(b.triggerProgress??1)||a.eventId.localeCompare(b.eventId);}
+function finalPhaseGate(s){
+ if(s.phaseResults[finalId(s)]?.completed)return s;
+ s.currentPhaseId=null;
+ s.eventProgress=1;
+ const pending=pendingRuntimeEvents(s).sort(eventOrder);
+ for(const rec of pending)fire(s,rec);
+ response(s);plan(s);
+ if(pending.length)s.finalPhaseGateRevision=(s.finalPhaseGateRevision||0)+1;
+ return s;
+}
+function prepareNextPhase(s){
+ plan(s);
+ let next=s.plannedPhaseIds.find(id=>!s.phaseResults[id]?.completed)||null;
+ if(next===finalId(s)){finalPhaseGate(s);next=s.plannedPhaseIds.find(id=>!s.phaseResults[id]?.completed)||null;}
+ s.currentPhaseId=next;
+ s.finished=!!s.phaseResults[finalId(s)]?.completed&&pendingRuntimeEvents(s).length===0&&!next;
+ return s;
+}
 function start(role,scenario,severity,options={}){
  if(!D.ROLE_META[role]||!D.SCENARIOS.includes(scenario)||!D.CAPACITY.initialByScenarioSeverity[scenario]?.[severity])throw Error('INVALID_START');
  const responseLevel=D.RESPONSE_LEVEL.initialBySeverity[severity];
  const s={role,scenario,initialSeverity:severity,responseLevel,targetPhaseCount:D.RESPONSE_LEVEL.targetPhaseCount[responseLevel],capacities:clone(D.CAPACITY.initialByScenarioSeverity[scenario][severity].capacity),pressures:clone(D.CAPACITY.initialPressure),coordinationFlags:clone(D.STATE_SCHEMA.initialization.coordinationFlags),completedPhaseIds:[],phaseResults:{},history:[],additionalEvents:[],activeEffects:[],eventProgress:0,eventSchedule:[],eventScheduleInitialized:false,plannedPhaseIds:[],currentPhaseId:null,lastCompletedPhaseId:null,finished:false,mutationCount:0};
- if(options.forcedEvents){s.fixtureMode=true;s.eventSchedule=options.forcedEvents.map(e=>({eventId:e.eventId,afterPhaseId:e.afterPhaseId,willOccur:true,selectedForRun:true,triggerProgress:null,triggered:false,triggeredAtProgress:null,finalImpact:null}));s.eventScheduleInitialized=true;}else schedule(s,options.rng||Math.random);
- plan(s);s.currentPhaseId=s.plannedPhaseIds.find(id=>!s.phaseResults[id]?.completed);return s;
+ if(options.forcedEvents){s.fixtureMode=true;s.eventSchedule=options.forcedEvents.map(e=>({eventId:e.eventId,afterPhaseId:e.afterPhaseId,willOccur:true,selectedForRun:true,triggerProgress:e.triggerProgress??null,triggered:false,triggeredAtProgress:null,finalImpact:null})).sort(eventOrder);s.eventSchedule.forEach((e,i)=>{e.selectedForRun=i<3;});s.eventScheduleInitialized=true;}else schedule(s,options.rng||Math.random);
+ prepareNextPhase(s);return s;
 }
 function answer(input,phaseId,choiceId){
  if(input.phaseResults[phaseId]?.completed)return input;
@@ -146,12 +166,16 @@ function answer(input,phaseId,choiceId){
  s.completedPhaseIds.push(phaseId);s.lastCompletedPhaseId=phaseId;
  mutate(s,p,c);s.mutationCount++;s.phaseResults[phaseId].capacityImprovements=Object.fromEntries(allCap.map(k=>[k,Math.max(0,s.capacities[k]-before[k])]).filter(x=>x[1]>0));
  s.history.push({phaseId,title:p.title,choiceId,textCore:c.textCore,score:c.score,situation:p.situationVariants[s.scenario],runtimeDetail:runtimeDetail(input,phaseId),displayPosition:p.choiceDisplayOrder.indexOf(choiceId)});
+ if(phaseId===finalId(s)){
+  s.currentPhaseId=null;
+  s.finished=pendingRuntimeEvents(s).length===0&&s.plannedPhaseIds.every(id=>s.phaseResults[id]?.completed);
+  if(!s.finished)throw Error('FINAL_GATE_NOT_SETTLED');
+  return s;
+ }
  response(s);const previous=s.eventProgress;s.eventProgress=clamp(Math.max(previous,s.completedPhaseIds.length/s.targetPhaseCount),0,1);
- const due=s.eventSchedule.filter(e=>e.selectedForRun&&!e.triggered&&(s.fixtureMode?e.afterPhaseId===phaseId:previous<e.triggerProgress&&s.eventProgress>=e.triggerProgress)).sort((a,b)=>(a.triggerProgress??0)-(b.triggerProgress??0)||(a.eventId<b.eventId?-1:1));
+ const due=s.eventSchedule.filter(e=>e.selectedForRun&&!e.triggered&&(s.fixtureMode&&e.afterPhaseId?e.afterPhaseId===phaseId:previous<e.triggerProgress&&s.eventProgress>=e.triggerProgress)).sort((a,b)=>(a.triggerProgress??0)-(b.triggerProgress??0)||(a.eventId<b.eventId?-1:1));
  for(const rec of due)fire(s,rec);
- s.currentPhaseId=null;plan(s);
- if(s.phaseResults[finalId(s)]?.completed&&s.plannedPhaseIds.some(id=>!s.phaseResults[id]?.completed))throw Error('FINAL_PHASE_ESCALATION_CONFLICT');
- s.currentPhaseId=s.plannedPhaseIds.find(id=>!s.phaseResults[id]?.completed)||null;s.finished=!s.currentPhaseId;
+ s.currentPhaseId=null;prepareNextPhase(s);
  return s;
 }
 function displayedChoices(phaseId,scenario){const p=byId[phaseId],ctx=D.CHOICE_RENDERING.scenarioContexts[scenario];return p.choiceDisplayOrder.map((id,i)=>{const c=p.choices.find(c=>c.id===id);const context=[ctx.hazardContext,ctx.affectedObjectTerms.replaceAll('{decisionObject}',c.decisionObject),ctx.constraintContext].join(' ');return {...clone(c),position:'ABCD'[i],context,text:c.textCore+'\n【状況補足】'+context};});}
@@ -225,5 +249,5 @@ function staticQA(){
  if(JSON.stringify(balance)!==JSON.stringify({A:13,B:13,C:13,D:12}))errors.push('DISPLAY_BALANCE');
  return {counts,balance,errors,ERROR:errors.length,status:errors.length?'FAIL':'PASS'};
 }
-return {master:D,phases,byId,start,answer,plan,predicate,relevance,closure,response,promote,resolve,fire,metrics,scoring,comments,displayedChoices,runtimeDetail,dependencyWarnings,staticQA,clone};
+return {master:D,phases,byId,start,answer,finalPhaseGate,prepareNextPhase,pendingRuntimeEvents,plan,predicate,relevance,closure,response,promote,resolve,fire,metrics,scoring,comments,displayedChoices,runtimeDetail,dependencyWarnings,staticQA,clone};
 });
