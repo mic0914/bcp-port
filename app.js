@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const E=window.BcpPort,D=E.master,$=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
+const E=window.BcpPort,O=window.BcpOutcomes,D=E.master,$=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const scenarioNames={EQTS:'地震・津波',TCSS:'台風・高潮',TCHW:'高波・暴風'},severityNames={LIGHT:'軽度',MODERATE:'中程度',SEVERE:'重度',EXTREME:'甚大'};
 const metricNames={portRecovery:'港湾機能回復率',supportTransport:'支援輸送機能',cargoHandling:'荷役機能',hinterlandLogistics:'背後物流機能',residualRisk:'残留リスク'};
 
@@ -15,6 +15,7 @@ function displayComments(){const c=E.comments(sim),view=Object.fromEntries(Objec
 const initialDamagePhrases={LIGHT:'軽微な被害',MODERATE:'中程度の被害',SEVERE:'大きな被害',EXTREME:'甚大な被害'};
 function phaseSituation(phaseId,text){return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
 let sim=null,startedAt=0,timer=null,locked=false,lastPrint='';
+let outcomeReports=new Map(),decisionSituations=new Map();
 // Presentation-only state; never stored in or consulted by the simulation engine.
 let introTimer=null,introActive=false,introPlays=0,eventAnimations=0,shownNotifications=new Set();
 function finishIntro(){
@@ -23,7 +24,7 @@ function finishIntro(){
  $('chat').style.visibility='';$('controlWrap').style.visibility='';$('controlWrap').inert=false;
  if(sim&&!sim.finished){startedAt=Date.now();timer=setInterval(updateTimer,1000);updateTimer();}
 }
-function clearPresentation(){if(introTimer!==null)clearTimeout(introTimer);introTimer=null;introActive=false;introPlays=0;eventAnimations=0;shownNotifications=new Set();$('scenarioIntro').hidden=true;$('chat').style.visibility='';$('controlWrap').style.visibility='';$('controlWrap').inert=false;}
+function clearPresentation(){outcomeReports=new Map();decisionSituations=new Map();if(introTimer!==null)clearTimeout(introTimer);introTimer=null;introActive=false;introPlays=0;eventAnimations=0;shownNotifications=new Set();$('scenarioIntro').hidden=true;$('chat').style.visibility='';$('controlWrap').style.visibility='';$('controlWrap').inert=false;}
 function playIntro(){
  introActive=true;introPlays++;const overlay=$('scenarioIntro');overlay.dataset.scenario=sim.scenario;$('introTitle').textContent=scenarioNames[sim.scenario];overlay.hidden=false;
  $('chat').style.visibility='hidden';$('controlWrap').style.visibility='hidden';$('controlWrap').inert=true;
@@ -51,6 +52,11 @@ function resultNodes(parent){
  const exportRow=el('div','pdf-export-row');const button=el('button','pdf-export-button','結果をPDF・印刷');button.type='button';button.id='pdfButton';button.addEventListener('click',printReport);exportRow.append(button);parent.append(exportRow);
  message(parent,'訓練上の留意事項','本結果は訓練用の内部設定による参考値です。実災害では現地状況と最新情報に基づいて判断してください。時間は採点に使用していません。','system');
 }
+function presentedSituation(id,base){
+ if(!decisionSituations.has(id)){const context=id===D.ROLE_PHASES[sim.role][0].id?'':O.nextContext(E,sim,id);decisionSituations.set(id,phaseSituation(id,base)+(context?'\n【現在の判断に関係する状況】\n'+context:''));}
+ return decisionSituations.get(id);
+}
+function outcomeMessage(parent,id){const report=outcomeReports.get(id);if(!report)return;const row=message(parent,report.title,report.text,'outcome');row.dataset.outcomePhase=id;}
 function render(){
  if(!sim)return;
  const chat=$('chat');chat.replaceChildren();$('startScreen').hidden=true;chat.style.display='block';$('controlWrap').style.display='block';
@@ -58,15 +64,15 @@ function render(){
  $('turnLabel').textContent='判断 '+sim.completedPhaseIds.length+' / '+sim.targetPhaseCount;
  $('progressBar').style.width=(100*sim.completedPhaseIds.length/sim.targetPhaseCount)+'%';
 
- for(const h of sim.history){message(chat,h.title,phaseSituation(h.phaseId,h.situation),'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))eventMessage(chat,e);}
+ for(const h of sim.history){message(chat,h.title,decisionSituations.get(h.phaseId)||phaseSituation(h.phaseId,h.situation),'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);outcomeMessage(chat,h.phaseId);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))eventMessage(chat,e);}
  const choices=$('choiceList');choices.replaceChildren();
  if(sim.finished){stopTimer();resultNodes(chat);$('promptText').textContent='シミュレーション終了';$('restartButton').hidden=false;buildPrintReport();}
- else {const p=E.byId[sim.currentPhaseId];message(chat,p.title,phaseSituation(p.id,p.situationVariants[sim.scenario]),'phase');$('promptText').textContent='あなたの役割として、次の対応を選択してください。';for(const choice of E.displayedChoices(p.id,sim.scenario)){const btn=el('button','choice-button');btn.type='button';btn.dataset.choiceId=choice.id;btn.append(el('span','choice-label',choice.position),el('span','choice-core',choice.textCore),el('small','choice-context',choice.context));btn.addEventListener('click',()=>choose(p.id,choice.id));choices.append(btn);} $('restartButton').hidden=true;}
- const stamp=el('div','chat-end');chat.append(stamp);requestAnimationFrame(()=>stamp.scrollIntoView({block:'end',behavior:'instant'}));
+ else {const p=E.byId[sim.currentPhaseId];message(chat,p.title,presentedSituation(p.id,p.situationVariants[sim.scenario]),'phase');$('promptText').textContent='あなたの役割として、次の対応を選択してください。';for(const choice of E.displayedChoices(p.id,sim.scenario)){const btn=el('button','choice-button');btn.type='button';btn.dataset.choiceId=choice.id;btn.append(el('span','choice-label',choice.position),el('span','choice-core',choice.textCore),el('small','choice-context',choice.context));btn.addEventListener('click',()=>choose(p.id,choice.id));choices.append(btn);} $('restartButton').hidden=true;}
+ const stamp=el('div','chat-end');chat.append(stamp);const latestOutcome=!sim.finished?chat.querySelector('[data-outcome-phase=\"'+sim.lastCompletedPhaseId+'\"]'):null;const scrollTarget=latestOutcome||stamp;requestAnimationFrame(()=>scrollTarget.scrollIntoView({block:latestOutcome?'start':'end',behavior:'instant'}));
 }
 function choose(phaseId,choiceId){
- if(locked)return;if(introActive)finishIntro();locked=true;$('errorBox').hidden=true;
- try{sim=E.answer(sim,phaseId,choiceId);render();}
+ if(locked||sim?.phaseResults[phaseId]?.completed)return;if(introActive)finishIntro();locked=true;$('errorBox').hidden=true;
+ try{const before=sim,next=E.answer(before,phaseId,choiceId),report=O.report(E,before,next,phaseId,choiceId);sim=next;outcomeReports.set(phaseId,report);render();}
  catch(error){showError(error);}
  finally{locked=false;}
 }
@@ -98,6 +104,6 @@ $('introContinue').addEventListener('click',finishIntro);
 $('restartButton').addEventListener('click',reset);
 $('newSessionButton').addEventListener('click',reset);
 window.addEventListener('afterprint',()=>document.body.classList.remove('pdf-printing'));
-window.BcpApp={start:begin,choose,render,reset,getState:()=>sim?E.clone(sim):null,buildPrintReport,printReport,reportHTML:()=>lastPrint,stopTimer,getPresentationState:()=>({introActive,introPlays,eventAnimations,shownNotifications:[...shownNotifications],timerRunning:timer!==null})};
+window.BcpApp={getOutcomeReports:()=>E.clone([...outcomeReports.values()]),start:begin,choose,render,reset,getState:()=>sim?E.clone(sim):null,buildPrintReport,printReport,reportHTML:()=>lastPrint,stopTimer,getPresentationState:()=>({introActive,introPlays,eventAnimations,shownNotifications:[...shownNotifications],timerRunning:timer!==null})};
 window.runBcpPortStaticQA=E.staticQA;
 })();

@@ -238,6 +238,37 @@
       }
     },
     {
+      "name": "decision_outcomes_18_flows",
+      "status": "PASS",
+      "details": {
+        "flows": 18,
+        "decisions": 306,
+        "kinds": [
+          "確認",
+          "条件",
+          "調整",
+          "需要",
+          "復旧",
+          "支援",
+          "代替"
+        ],
+        "duplicates": 0,
+        "roleContamination": 0,
+        "scoreExposure": 0,
+        "unsupportedFacts": 0,
+        "engineChanges": 0
+      }
+    },
+    {
+      "name": "outcome_mobile_tap",
+      "status": "PASS",
+      "details": {
+        "overflow": false,
+        "outcomes": 1,
+        "choices": 4
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {

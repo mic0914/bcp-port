@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "name": "51_profile_audit",
+      "status": "PASS",
+      "details": {
+        "phases": 51,
+        "independent": 35,
+        "brief": 16
+      }
+    },
+    {
+      "name": "all_204_choices_x_3_disasters",
+      "status": "PASS",
+      "details": {
+        "cases": 612,
+        "scoreExposure": 0,
+        "repeatedChoice": 0,
+        "unsupportedFacts": 0,
+        "stateMutation": 0
+      }
+    },
+    {
+      "name": "EVENT_after_mutation_snapshot",
+      "status": "PASS",
+      "details": {
+        "reportPower": 55,
+        "afterEventPower": 35
+      }
+    },
+    {
+      "name": "substitute_keeps_original_obstacle",
+      "status": "PASS"
+    },
+    {
+      "name": "recheck_and_demand_resolution",
+      "status": "PASS"
+    }
+  ]
+}
