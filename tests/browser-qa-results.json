@@ -229,6 +229,15 @@
       }
     },
     {
+      "name": "initial_severity_briefing_36",
+      "status": "PASS",
+      "details": {
+        "cases": 36,
+        "stateChanges": 0,
+        "canonicalPreserved": true
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {
