@@ -249,7 +249,7 @@
     {
       "role": "PORT_MANAGER",
       "file": "bcp-port_manager.pdf",
-      "bytes": 220777,
+      "bytes": 220829,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -263,7 +263,7 @@
     {
       "role": "TERMINAL_OPERATOR",
       "file": "bcp-terminal_operator.pdf",
-      "bytes": 216622,
+      "bytes": 218386,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -277,7 +277,7 @@
     {
       "role": "HOKKAIDO_DEVELOPMENT_BUREAU",
       "file": "bcp-hokkaido_development_bureau.pdf",
-      "bytes": 220312,
+      "bytes": 220631,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",

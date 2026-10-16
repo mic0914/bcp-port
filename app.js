@@ -12,18 +12,8 @@ function displayText(text){return String(text).replace(/\b((?:PM|ML|TO)X?\d{2}) 
 function displayComments(){const c=E.comments(sim),view=Object.fromEntries(Object.entries(c).map(([key,value])=>[key,Array.isArray(value)?value.map(displayText):displayText(value)]));if(view.eventReview.length)view.eventReview[0]+=' 影響段階は1～4の訓練用尺度です。増幅0は事前判断による影響の上乗せがないことを示します。';return view;}
 
 
-const initialSituationBySeverity={
- LIGHT:'港湾機能は全体として比較的保たれています。被害・機能低下は小さい状態ですが、個別施設の安全性や利用条件はまだ確認が必要です。',
- MODERATE:'複数の港湾機能が低下し、利用できる能力に制約があります。港全体が使えない状態ではありませんが、施設・作業ごとの利用条件はまだ確認が必要です。',
- SEVERE:'主要な港湾機能にも大きな制約が生じています。通常時と同じ受入れ・荷役・輸送を前提にできず、限られた能力の中で対応する状況です。個別施設の安全性はまだ確認が必要です。',
- EXTREME:'港湾機能が広い範囲で大きく低下し、利用可能な能力が著しく限られています。通常の運用は困難な状態ですが、全施設の使用不能を意味するものではありません。残る機能と安全性はまだ確認が必要です。'
-};
-function initialSituation(){
- const initial=D.CAPACITY.initialByScenarioSeverity[sim.scenario][sim.initialSeverity].capacity;
- const lowest=D.CAPACITY.physicalEffective.slice().sort((a,b)=>initial[a]-initial[b]||D.CAPACITY.physicalEffective.indexOf(a)-D.CAPACITY.physicalEffective.indexOf(b)).slice(0,2);
- return scenarioNames[sim.scenario]+'による被災規模は「'+severityNames[sim.initialSeverity]+'」です。'+initialSituationBySeverity[sim.initialSeverity]+'\n開始時は、'+lowest.map(k=>displayLabels[k]).join('・')+'の機能低下が相対的に大きい状況です。';
-}
-
+const initialDamagePhrases={LIGHT:'軽微な被害',MODERATE:'中程度の被害',SEVERE:'大きな被害',EXTREME:'甚大な被害'};
+function phaseSituation(phaseId,text){return phaseId===D.ROLE_PHASES[sim.role][0].id?scenarioNames[sim.scenario]+'により、港湾で'+initialDamagePhrases[sim.initialSeverity]+'が発生しています。\n'+text:text;}
 let sim=null,startedAt=0,timer=null,locked=false,lastPrint='';
 // Presentation-only state; never stored in or consulted by the simulation engine.
 let introTimer=null,introActive=false,introPlays=0,eventAnimations=0,shownNotifications=new Set();
@@ -67,11 +57,11 @@ function render(){
  $('scenarioLabel').textContent=D.ROLE_META[sim.role].displayName+' ／ '+scenarioNames[sim.scenario]+' ／ 初期 '+severityNames[sim.initialSeverity]+' ／ 対応 '+severityNames[sim.responseLevel];
  $('turnLabel').textContent='判断 '+sim.completedPhaseIds.length+' / '+sim.targetPhaseCount;
  $('progressBar').style.width=(100*sim.completedPhaseIds.length/sim.targetPhaseCount)+'%';
- message(chat,'開始時の被災状況',initialSituation(),'phase');
- for(const h of sim.history){message(chat,h.title,h.situation,'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))eventMessage(chat,e);}
+
+ for(const h of sim.history){message(chat,h.title,phaseSituation(h.phaseId,h.situation),'phase');message(chat,D.ROLE_META[sim.role].displayName,h.textCore,'player',true);for(const e of sim.additionalEvents.filter(e=>e.occurredAfterPhaseId===h.phaseId))eventMessage(chat,e);}
  const choices=$('choiceList');choices.replaceChildren();
  if(sim.finished){stopTimer();resultNodes(chat);$('promptText').textContent='シミュレーション終了';$('restartButton').hidden=false;buildPrintReport();}
- else {const p=E.byId[sim.currentPhaseId];message(chat,p.title,p.situationVariants[sim.scenario],'phase');$('promptText').textContent='あなたの役割として、次の対応を選択してください。';for(const choice of E.displayedChoices(p.id,sim.scenario)){const btn=el('button','choice-button');btn.type='button';btn.dataset.choiceId=choice.id;btn.append(el('span','choice-label',choice.position),el('span','choice-core',choice.textCore),el('small','choice-context',choice.context));btn.addEventListener('click',()=>choose(p.id,choice.id));choices.append(btn);} $('restartButton').hidden=true;}
+ else {const p=E.byId[sim.currentPhaseId];message(chat,p.title,phaseSituation(p.id,p.situationVariants[sim.scenario]),'phase');$('promptText').textContent='あなたの役割として、次の対応を選択してください。';for(const choice of E.displayedChoices(p.id,sim.scenario)){const btn=el('button','choice-button');btn.type='button';btn.dataset.choiceId=choice.id;btn.append(el('span','choice-label',choice.position),el('span','choice-core',choice.textCore),el('small','choice-context',choice.context));btn.addEventListener('click',()=>choose(p.id,choice.id));choices.append(btn);} $('restartButton').hidden=true;}
  const stamp=el('div','chat-end');chat.append(stamp);requestAnimationFrame(()=>stamp.scrollIntoView({block:'end',behavior:'instant'}));
 }
 function choose(phaseId,choiceId){
@@ -97,7 +87,7 @@ function buildPrintReport(){
  row('全体評価',c.overall,'result');
  for(const [key,label]of [['review','振り返り'],['missingActions','不足していた行動'],['improvements','改善の方向'],['eventReview','追加事象の振り返り']])row(label,c[key].length?c[key].map((x,i)=>(i+1)+'. '+x).join('\n'):'該当なし','result');
  section.append(el('h2','','判断の記録'));
- for(const h of sim.history){row(h.title,h.situation,'phase');row(D.ROLE_META[sim.role].displayName,h.textCore+'\n判断得点：'+h.score+' / 10','player');}
+ for(const h of sim.history){row(h.title,phaseSituation(h.phaseId,h.situation),'phase');row(D.ROLE_META[sim.role].displayName,h.textCore+'\n判断得点：'+h.score+' / 10','player');}
  row('留意事項','訓練用内部設定による参考結果です。時間は採点に使用していません。','');
  lastPrint=section.innerHTML;
 }
