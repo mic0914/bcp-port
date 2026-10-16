@@ -272,7 +272,7 @@
       "name": "PM03_actual_situation",
       "status": "PASS",
       "details": {
-        "text": "岸壁は利用可能な能力に制約があります。\n岸壁・係留施設の個別の安全性や荷重条件は、機能の残り具合だけでは確定できません。"
+        "text": "岸壁は利用可能な能力に制約があります。\n岸壁・係留施設について、利用可否の判断に使う情報を整理する必要があります。個別施設の安全性や荷重条件は、機能の残り具合だけでは確定できません。"
       }
     },
     {
@@ -292,6 +292,13 @@
       }
     },
     {
+      "name": "decision_to_next_brief_36",
+      "status": "PASS",
+      "details": {
+        "cases": 36
+      }
+    },
+    {
       "name": "JS_uncaught_zero",
       "status": "PASS",
       "details": {
@@ -303,7 +310,7 @@
     {
       "role": "PORT_MANAGER",
       "file": "bcp-port_manager.pdf",
-      "bytes": 216457,
+      "bytes": 213228,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -317,7 +324,7 @@
     {
       "role": "TERMINAL_OPERATOR",
       "file": "bcp-terminal_operator.pdf",
-      "bytes": 215826,
+      "bytes": 209676,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",
@@ -331,7 +338,7 @@
     {
       "role": "HOKKAIDO_DEVELOPMENT_BUREAU",
       "file": "bcp-hokkaido_development_bureau.pdf",
-      "bytes": 217213,
+      "bytes": 218773,
       "pages": 3,
       "format": "A4 portrait",
       "margin": "20mm CSS @page",

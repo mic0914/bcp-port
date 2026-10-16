@@ -42,8 +42,17 @@
       "status": "PASS",
       "details": {
         "cases": 153,
-        "changed": 59,
+        "changed": 153,
         "metaPhrases": 0
+      }
+    },
+    {
+      "name": "choice_specific_narratives_204",
+      "status": "PASS",
+      "details": {
+        "count": 204,
+        "briefs": 51,
+        "duplicateLeads": 0
       }
     }
   ]
